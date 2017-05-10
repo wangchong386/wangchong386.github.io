@@ -3,9 +3,6 @@ name: personal Blog
 markdown: kramdown
 permalink: /blog/:year/:month/:day/:title
 
-<<<<<<< HEAD
-=======
 exclude: ["lib", "config.rb", ".sass-cache", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "*.sublime-project", "*.sublime-workspace", "Gemfile", "Gemfile.lock", "README.md", "LICENSE", "node_modules", "Gruntfile.js", "package.json"]
 
 theme: jekyll-theme-leap-day
->>>>>>> bbe90608661dfd554c617e23bd7a6d046e7d7ff6
