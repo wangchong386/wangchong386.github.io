@@ -1,7 +1,6 @@
 ---
 layout: archive
 permalink: /
-title: "blog"
 ---
 
 <div class="tiles">
