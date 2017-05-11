@@ -1,41 +1,74 @@
-# Site wide configuration
+# Hexo Configuration
+## Docs: http://hexo.io/docs/configuration.html
+## Source: https://github.com/hexojs/hexo/
 
-title: "personal Blog"
-description: "记录自己的进步与想法，养成良好的习惯:文字表达能力、分享的习惯、坚持的习惯"
-logo: logo.jpg # 120x120 px default image used for Twitter summary card
-teaser: /teaser/default.jpg # 400x250 px default teaser image used in image archive grid
-locale:
-url:
+# Site
+title: 小鱼周凌宇のCODE_HOME
+subtitle: 技术宅 iOS开发 JAVA开发 萌妹子
+description: 技术宅 iOS开发 JAVA开发 萌妹子
+author: 小鱼周凌宇
+email: coderfish@163.com
+language: zh-Hans
+timezone:
 
-default:
-    -
-        scope:
-            type: "article"
-        values:
-            ads: false
-            toc: false 
+# URL
+## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
+url: http://zhoulingyu.com
+root: /
+permalink: :year/:month/:day/:title/
+permalink_defaults:
 
+# Directory
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
 
-# Jekyll configuration
+# Writing
+new_post_name: :title.md # File name of new posts
+default_layout: post
+titlecase: false # Transform title into titlecase
+external_link: true # Open external links in new tab
+filename_case: 0
+render_drafts: false
+post_asset_folder: false
+relative_link: false
+future: true
+highlight:
+  enable: true
+  line_number: true
+  auto_detect: false
+  tab_replace:
 
-sass:
-    sass_dir: _sass
-    style: compressed
-permalink: /:categories/:title/
-markdown: kramdown
-kramdown:
-    input: GFM
-highlighter: pygments
-gems:
-  - jekyll-sitemap
+# Category & Tag
+default_category: uncategorized
+category_map:
+tag_map:
 
+# Date / Time format
+## Hexo uses Moment.js to parse and display date
+## You can customize the date format as defined in
+## http://momentjs.com/docs/#/displaying/format/
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
 
-# Site owner
-owner: 
-  name: 王冲
-  email: wangchongf123@gmail.com
-  bio: 
-  avatar: logo.jpg # 160x160 px image for author byline
+# Pagination
+## Set per_page to 0 to disable pagination
+per_page: 20
+pagination_dir: page
 
+# Extensions
+## Plugins: http://hexo.io/plugins/
+## Themes: http://hexo.io/themes/
+theme: next
 
-exclude: ["lib", "config.rb", ".sass-cache", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "*.sublime-project", "*.sublime-workspace", "Gemfile", "Gemfile.lock", "README.md", "LICENSE", "node_modules", "Gruntfile.js", "package.json"]
+# Deployment
+## Docs: http://hexo.io/docs/deployment.html
+deploy:
+  type: git
+  repository: https://github.com/summertian4/summertian4.github.io
+  branch: master
