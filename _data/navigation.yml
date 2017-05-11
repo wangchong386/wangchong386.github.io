@@ -5,8 +5,8 @@
   excerpt: 
   image: 
 
-- title: MySQL
-  url: /mysql/
+- title: HADOOP
+  url: /hadoop/
 
 - title: Linux
   url: /linux/
@@ -14,8 +14,8 @@
 - title: Python
   url: /python/
 
-- title: Jekyll
-  url: /jekyll/
+- title: DataWarehouse
+  url: /DataWarehouse/
 
 - title: About Me
   url: /about/
