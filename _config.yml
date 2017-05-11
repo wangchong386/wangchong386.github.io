@@ -1,9 +1,7 @@
 # Site wide configuration
 
-title: "cenalulu's Tech Blog"
-description: "Collection of everythings I want to record down especially for tech"
-logo: logo.jpg # 120x120 px default image used for Twitter summary card
-teaser: /teaser/default.jpg # 400x250 px default teaser image used in image archive grid
+title: "personal blog"
+description: "每天学一点"
 locale:
 url:
 
@@ -32,15 +30,12 @@ gems:
 
 # Site owner
 owner: 
-  name: cenalulu(卢钧轶)
-  email: cenalulu@gmail.com
-  twitter: cenalulu
+  name: wangchong
+  email: wangchongf123@gmail.com
   google:
     ad-client: "ca-pub-5984522345984184"
     ad-slot: "9439014959"
   bio: 
-  avatar: logo.jpg # 160x160 px image for author byline
-disqus-shortname: cenalulu
 
 
 exclude: ["lib", "config.rb", ".sass-cache", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", "*.sublime-project", "*.sublime-workspace", "Gemfile", "Gemfile.lock", "README.md", "LICENSE", "node_modules", "Gruntfile.js", "package.json"]
