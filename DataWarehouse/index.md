@@ -1,7 +1,7 @@
 ---
 layout: archive
 permalink: /DataWarehouse/
-title: "Latest Posts in *DataWarehouse*"
+title: " *DW/BI*"
 excerpt: "It is a system used for reporting and data analysis, and is considered a core component of business intelligence"
 ---
 
