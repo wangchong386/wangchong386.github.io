@@ -1,1 +1,25 @@
-theme: jekyll-theme-minimal
+# Site wide configuration
+
+title: "cenalulu's Tech Blog"
+locale:
+url:
+
+default:
+    -
+        scope:
+            type: "article"
+        values:
+            ads: false
+            toc: false 
+
+
+# Jekyll configuration
+
+sass:
+    sass_dir: _sass
+    style: compressed
+permalink: /:categories/:title/
+markdown: kramdown
+kramdown:
+    input: GFM
+highlighter: pygments
