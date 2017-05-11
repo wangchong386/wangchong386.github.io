@@ -5,8 +5,8 @@
   excerpt: 
   image: 
 
-- title: MySQL
-  url: /mysql/
+- title: DataWarehouse
+  url: /DataWarehouse/
 
 - title: Linux
   url: /linux/
