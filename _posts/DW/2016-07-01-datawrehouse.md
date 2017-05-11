@@ -29,7 +29,10 @@ image:
 &emsp;&emsp;数据仓库并不是什么新东西，它已经存在了几十年了，最早可以追溯到 60 年代，然后由数据仓库之父 Bill Inmon 与 80 年代提出被广泛接受的数据仓库定义：
 {% highlight bash %}
 {% raw %}
-数据仓库是一个用于支持管理决策的面向主题的（Subject Oriented）、相对稳定的（Non-Volatile）、集成的（Integrate）、反映历史变化（Time Variant）的数据集合。
+数据仓库是一个用于支持管理决策的面向主题的（Subject Oriented）、
+相对稳定的（Non-Volatile）、
+集成的（Integrate）、
+反映历史变化（Time Variant）的数据集合。
 {% endraw %}
 {% endhighlight %}
 
