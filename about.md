@@ -14,8 +14,4 @@ permalink: /about/
 
 
 ## Other Information about Me
-<script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
-<script type="IN/MemberProfile" data-id="https://www.linkedin.com/pub/junyi-lu/17/895/651" data-format="inline" data-related="false"></script>
-
-![cenalulu at Project Euler](https://projecteuler.net/profile/cenalulu.png)
 
