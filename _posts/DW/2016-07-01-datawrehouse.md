@@ -1,13 +1,13 @@
 --
 layout: article
 title: "数据仓库数据仓库的简单介绍"
-modified:
 categories: DW
+toc: true
 #excerpt:
 #tags: []
-image:
-    teaser: /teaser/datawarehouse.jpg
-#    thumb:
+image：
+#   teaser: /teaser/datawarehouse.jpg
+date: 2016-02-11T11:07:24+00:00
 ---
 
 > 本文介绍数据仓库以及维度建模分析，主要是对工作中用到的一些总结和感悟
