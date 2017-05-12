@@ -223,9 +223,9 @@
 		&:after {
 			content: 'wangchong blog';
 			position: absolute;
-			bottom: 100;
+			bottom: 0;
 			width: 10%;
-			text-align: center;
+			text-align: right;
 			display: block;
 			@include font-size(9,no);
 			font-family: $alt-font;
