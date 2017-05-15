@@ -6,7 +6,7 @@ toc: true
 image:
     teaser: /teaser/datawarehouse.jpg
 ---
-
+![screenshot of Skinny Bones](http://ww1.sinaimg.cn/large/a8a646f9ly1ffm9bnoyupj20m80go0uv.jpg)
 > 本文介绍数据仓库以及维度建模分析，主要是对工作中用到的一些总结和感悟
 
 ### 前言
