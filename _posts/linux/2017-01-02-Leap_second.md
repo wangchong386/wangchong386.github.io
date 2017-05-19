@@ -56,32 +56,40 @@ image:
 
 ## 2. 闰秒为什么会导致Linux出现问题？
 * 由于Linux kernel 2.6.29之前版本存在bug，在进行闰秒调整时可能会引起系统时钟服务ntpd进程死锁。Debian Lenny、RHEL/CentOS 5等旧发行版今天仍被广泛使用，部分供应商早已经发布了补丁。
+
 ## 3.闰秒导致部分Linux服务器高CPU使用率
 * 国际地球自转和参考坐标系统服务(IERS)在2012年6月30日午夜(北京时间7月1号7点59分59秒)增加一闰秒(即出现 7：59：60)。由于Linux kernel 2.6.29之前版本存在bug，在进行闰秒调整时可能会引起系统时钟服务ntpd进程死锁。Debian Lenny、RHEL/CentOS 5等旧发行版今天仍被广泛使用，部分供应商早已经发布了补丁。
 * 但除了Linux服务器外，一些服务器程序也因为闰秒出现了问题，如Reddit、Mozilla、FourSquare、Yelp、 LinkedIn和Gawker等网站都短暂遭遇了技术问题，国内的一家云储存供应商发现运行在CentOS 6.2上的Java和MySQL因闰秒出现了不同程度的CPU利用率增长，猜测是JVM和MySQL试图通过CPU硬件晶振的数据获得当前精确的时间，由 于闰秒的关系，这个时间和操作系统维持的墙上时间(Wall Time，也就是显示给用户看的时间)不一致，导致了这个问题。简单的修正方法是强制重置系统时间，让系统中所有时间回到同步的状态
 * 近日，国际地球自转和参考系统服务地球定向中心(IERS)通过推特重申，国际标准时间UTC将在格林尼治时间2016年12月31日23时59分59秒(北京时间2017年1月1日7时59分59秒)之后，在原子时钟实施一个正闰秒，即增加1秒，然后才会跨入新的一年。
 * 每隔一段时间，目前世界范围内通用的协调世界时(UTC)会与依据地球围绕太阳运动计算的平太阳日和世界时(UT1)出现很小的偏差，需要对UTC增加或者减少一秒来消除。
-## 3.解决方法
+
+## 4.解决方法
 1. 简要解决方法：在发生闰秒前停掉ntpd服务，闰秒发生后再开启ntpd
 
 2. 根解：放弃使用ntpd，使用简化的sntp协议，同时在实现直接调用settimeofday来完成，不会触发内核的事件调整异常
 * Java Fortunately the fix is straightforward:
+
 ```
 /etc/init.d/ntp stop
 date -s "$(date)"
 ```
-* Mysql
-```
+
+ Mysql
+
+{% highlight bash %}
+{% raw %}
 
 The fix is quite simple – simply set the date. Alternatively, you can restart the machine, which also works. Restarting MySQL (or Java, or whatever) does NOT fix the problem. We put the following into puppet to run on all our machines:
 
-$ cat files/bin/leap-second.sh 
-#!/bin/bash
-# this is a quick-fix to the 6/30/12 leap second bug
+$ cat files/bin/leap-second.sh
+
+`#!/bin/bash`
+`# this is a quick-fix to the 6/30/12 leap second bug`
 
 if [ ! -f /tmp/leapsecond_2012_06_30 ]
 then
 /etc/init.d/ntpd stop; date -s "`date`" && /bin/touch /tmp/leapsecond_2012_06_30
 fi
 
-```
+{% endraw %}
+{% endhighlight %}
