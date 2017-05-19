@@ -31,12 +31,12 @@ image:
 &emsp;&emsp;__最后找到罪魁祸首就是leap second（闰秒）：__
 ## 问题分析：
 
-#### 1. 此次Flume故障开始于1月1日早上8点到9点，此时，在08:00测试集群的两台机器CPU 突然100%
+* 1. 此次Flume故障开始于1月1日早上8点到9点，此时，在08:00测试集群的两台机器CPU 突然100%
 ![](http://ww1.sinaimg.cn/large/a8a646f9ly1ffqthgrs7sj20ak0a73z5.jpg)
 
 后来了解到2017年1月1日早上08:00，UTC时间增加一秒（leap second，参考：http://www.cas.cn/tz/201612/t20161227_4586274.shtml  ）
 
-#### 2. 检查系统日志，发现增加闰秒日志：
+* 2. 检查系统日志，发现增加闰秒日志：
 ![](http://ww1.sinaimg.cn/large/a8a646f9ly1ffqtkfqzeyj20my02ot8y.jpg)
 ![](http://ww1.sinaimg.cn/large/a8a646f9ly1ffqtpb75ohj208x01ldfo.jpg)
 
@@ -53,3 +53,5 @@ image:
 
 {% endraw %}
 {% endhighlight %}
+
+## 2. 闰秒为什么会导致Linux出现问题？
