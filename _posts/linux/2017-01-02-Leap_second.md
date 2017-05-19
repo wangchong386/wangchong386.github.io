@@ -67,7 +67,7 @@ image:
 1. 简要解决方法：在发生闰秒前停掉ntpd服务，闰秒发生后再开启ntpd
 
 2. 根解：放弃使用ntpd，使用简化的sntp协议，同时在实现直接调用settimeofday来完成，不会触发内核的事件调整异常
-* Java Fortunately the fix is straightforward:
+ Java Fortunately the fix is straightforward:
 
 ```
 /etc/init.d/ntp stop
