@@ -3,7 +3,7 @@ layout: article
 title:  "[转]总有你用到的的编程书单"
 categories: DW
 image:
-    teaser: /teaser/book.jpg
+    teaser: /teaser/learingbook.jpg
 ---
 
 
