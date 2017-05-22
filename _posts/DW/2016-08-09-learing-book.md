@@ -1,6 +1,6 @@
 ---
 layout: article
-title:  "数据仓库数据仓库的简单介绍"
+title:  "[转]总有你用到的的编程书单"
 categories: DW
 image:
     teaser: /teaser/book.jpg
