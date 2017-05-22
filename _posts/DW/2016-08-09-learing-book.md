@@ -2,16 +2,16 @@
 layout: article
 title:  "数据仓库数据仓库的简单介绍"
 categories: DW
-toc: true
 image:
-    teaser: /teaser/datawarehouse.jpg
+    teaser: /teaser/book.jpg
 ---
 
 
 
 
-总有你要的编程书单
+## 总有你要的编程书单
 
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><h3 id="ide"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h3><ul>
 <li><a href="https://github.com/judasn/IntelliJ-IDEA-Tutorial" target="_blank" rel="external">IntelliJ IDEA 简体中文专题教程</a></li>
 </ul>
 <h3 id="mysql"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><ul>
