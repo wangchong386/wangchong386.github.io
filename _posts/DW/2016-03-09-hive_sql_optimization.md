@@ -1,10 +1,10 @@
 ---
 layout: article
-title:  "闰秒导致部分Linux服务器高CPU使用率"
+title:  "hive sql优化基础篇"
 categories: DW
 toc: true
 image:
-    teaser: /teaser/leapsecond.jpg
+    teaser: /teaser/hive_sql1.jpg
 ---
 
 > 本文主要介绍闰秒为什么会导致linux出现问题
