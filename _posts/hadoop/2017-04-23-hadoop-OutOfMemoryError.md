@@ -12,45 +12,51 @@ image:
 ### 前言
 &emsp;&emsp;以下内容主要是通过在学习和工作中的一些总结和感悟，很多概念上的东西都主要来自于书籍和网络，毕竟这些基础知识还是以官网为准。
 ## 概述
-&emsp;&emsp;从公司这次出现的事故说起吧，在2017年1月1日刚好是个周末。大清早的就接到运维电话。
+&emsp;&emsp;从这次出现的事故说起吧，在凌晨一点多接到运维电话。报ETL流程失败
 
 
     | 时间    | 事件| 
-    | 09:34   | 生产环境有多台机器报警，2台Flume均有日志积压，同时测试服务器CPU持续100%。
-                先将Flume重启，确认已经重启成功，正在读取缓存文件后，反馈运维。暂没有深入分析原因
-    | 11:00   | 运维再次发现还是一直报警，并且flume还有大量的积压数据。
-    | 13:00   | 两台Flume重新进行配置。由文件缓存改为内存缓存，并增加写入HDFS线程数到8个。 
-                发现Flume正常无积压运行一段一个小时后Flume无响应，不接受数据，对配置参数进行调整，
-                写入HDFS线程数减少到3个，增大了每次写入HDFS的batch size。 
-                同时将生产环境active namenode的yarn关闭，提高namenode响应。
-    |19:00    | 调整完毕。之后一直正常运行
-    |21:00    | kill无用的高CPU java进程，解决了测试环境服务器持续数天高负载的问题
+    | 01:34   | 日志检查失败，ETL流程异常退出，其中有一个任务：Caused by: java.lang.OutOfMemoryError: Java heap space
 
-&emsp;&emsp;直到完全解决问题，一直认为是突然公司流量增大，导致Flume端消费不及时数据堆积增多导致的。但是又发现测试环境中基本没有什么任务。为什么一直是满负载。而且测试集群中有8台机器，为什么只有两台机器cpu持续是100%？
 
-&emsp;&emsp;__最后找到罪魁祸首就是leap second（闰秒）：__
+
 ## 问题分析：
 
-* 1. 此次Flume故障开始于1月1日早上8点到9点，此时，在08:00测试集群的两台机器CPU 突然100%
-![](http://ww1.sinaimg.cn/large/a8a646f9ly1ffqthgrs7sj20ak0a73z5.jpg)
-
-后来了解到2017年1月1日早上08:00，UTC时间增加一秒（leap second，参考：http://www.cas.cn/tz/201612/t20161227_4586274.shtml  ）
-
-* 2. 检查系统日志，发现增加闰秒日志：
-![](http://ww1.sinaimg.cn/large/a8a646f9ly1ffqtkfqzeyj20my02ot8y.jpg)
-![](http://ww1.sinaimg.cn/large/a8a646f9ly1ffqtpb75ohj208x01ldfo.jpg)
-
-&emsp;&emsp;__综上认为：闰秒触发了java的bug，导致java进程CPU占用过高，响应缓__
-
-## 1. 什么是闰秒？
+* 查看日志发现有任务的确是java.lang.OutOfMemoryError错误，主要错误日志如下：
 {% highlight bash %}
 {% raw %}
 
-* 闰秒，是指为保持协调世界时接近于世界时时刻，由国际计量局统一规定在年底或年中（也可能在季末）对协调世界时增加或减少1秒的调整。由于地球自转的不均匀性和长期变慢性（主要由潮汐摩擦引起的），会使世界时（民用时）和原子时之间相差超过到±0.9秒时，就把协调世界时向前拨1秒（负闰秒，最后一分钟为59秒）或向后拨1秒（正闰秒，最后一分钟为61秒）； 
-* 闰秒一般加在公历年末或公历六月末。
-* 目前，全球已经进行了27次闰秒，均为正闰秒。
-* __最近一次闰秒在北京时间2017年1月1日7时59分59秒（时钟显示07:59:60）出现。这也是本世纪的第五次闰秒。__
+ Examining task ID: task_1495604758492_3152$m_000477 (and more) from job job_1495604758492_3152
 
+ Task with the most failures(4):
+ -----
+ Task ID:
+   task_1495604758492_3152_r_000001
+
+ URL:
+   http://d1-datanode32:8088/taskdetails.js$?jobid=job_1495604758492_3152&tipid=task_1495604758492_3152_r_000001
+ -----
+ Diagnostic Messages for this Task:
+ Error: org.apache.hadoop.mapreduce.task.re$uce.Shuffle$ShuffleError: error in shuffle in fetcher#16
+   at org.apache.hadoop.mapreduce.task.redu$e.Shuffle.run(Shuffle.java:134)
+   at org.apache.hadoop.mapred.ReduceTask.r$n(ReduceTask.java:376)
+   at org.apache.hadoop.mapred.YarnChild$2.$un(YarnChild.java:163)
+   at java.security.AccessController.doPriv$leged(Native Method)
+   at javax.security.auth.Subject.doAs(Subj$ct.java:415)
+   at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1671)
+   at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:158)
+ Caused by: java.lang.OutOfMemoryError: Java heap space
+   at org.apache.hadoop.io.BoundedByteArrayOutputStream.<init>(BoundedByteArrayOutputStream.java:56)
+   at org.apache.hadoop.io.BoundedByteArrayOutputStream.<init>(BoundedByteArrayOutputStream.java:46)
+   at org.apache.hadoop.mapreduce.task.reduce.InMemoryMapOutput.<init>(InMemoryMapOutput.java:63)
+   at org.apache.hadoop.mapreduce.task.reduce.MergeManagerImpl.unconditionalReserve(MergeManagerImpl.java:305)
+   at org.apache.hadoop.mapreduce.task.reduce.MergeManagerImpl.reserve(MergeManagerImpl.java:295)
+   at org.apache.hadoop.mapreduce.task.reduce.Fetcher.copyMapOutput(Fetcher.java:514)
+   at org.apache.hadoop.mapreduce.task.reduce.Fetcher.copyFromHost(Fetcher.java:336)
+   at org.apache.hadoop.mapreduce.task.reduce.Fetcher.run(Fetcher.java:193)
+ FAILED: Execution Error, return code 2 from org.apache.hadoop.hive.ql.exec.mr.MapRedTask
+ MapReduce Jobs Launched:
+ Stage-Stage-1: Map: 485  Reduce: 7   Cumulative CPU: 11740.0 sec   HDFS Read: 13431704785 HDFS Write: 0 FAIL
 {% endraw %}
 {% endhighlight %}
 
