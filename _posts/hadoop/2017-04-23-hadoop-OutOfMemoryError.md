@@ -7,7 +7,7 @@ image:
     teaser: /teaser/OutOfMemory.png
 ---
 
-> 本文主要介绍mapreduce计算过程中出现内存溢出的问题
+> 本文主要介绍mapreduce计算过程中出现内存溢出的问题，然后是对Java内存溢出(OOM)异常的总结与思考
 
 ### 前言
 &emsp;&emsp;以下内容主要是通过在学习和工作中的一些总结和感悟，很多概念上的东西都主要来自于书籍和网络，毕竟这些基础知识还是以官网为准。
@@ -60,8 +60,7 @@ image:
 {% endraw %}
 {% endhighlight %}
 
-## 2. 闰秒为什么会导致Linux出现问题？
-* 由于Linux kernel 2.6.29之前版本存在bug，在进行闰秒调整时可能会引起系统时钟服务ntpd进程死锁。Debian Lenny、RHEL/CentOS 5等旧发行版今天仍被广泛使用，部分供应商早已经发布了补丁。
+* 相信对于java人员来说出现java.lang.OutOfMemoryError: Java heap space时很常见的。一般是因为：当应用程序试图向堆空间添加更多的数据，但堆却没有足够的空间来容纳这些数据时，将会触发java.lang.OutOfMemoryError: Java heap space异常。需要注意的是：即使有足够的物理内存可用，只要达到堆空间设置的大小限制，此异常仍然会被触发。
 
 ## 3.闰秒导致部分Linux服务器高CPU使用率
 * 国际地球自转和参考坐标系统服务(IERS)在2012年6月30日午夜(北京时间7月1号7点59分59秒)增加一闰秒(即出现 7：59：60)。由于Linux kernel 2.6.29之前版本存在bug，在进行闰秒调整时可能会引起系统时钟服务ntpd进程死锁。Debian Lenny、RHEL/CentOS 5等旧发行版今天仍被广泛使用，部分供应商早已经发布了补丁。
