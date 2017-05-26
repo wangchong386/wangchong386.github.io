@@ -1,13 +1,13 @@
 ---
 layout: article
-title:  "闰秒导致部分Linux服务器高CPU使用率"
-categories: linux
+title:  "hadoop OutOfMemoryError"
+categories: hadoop
 toc: true
 image:
-    teaser: /teaser/leapsecond.jpg
+    teaser: /teaser/OutOfMemory.png
 ---
 
-> 本文主要介绍闰秒为什么会导致linux出现问题
+> 本文主要介绍mapreduce计算过程中出现内存溢出的问题
 
 ### 前言
 &emsp;&emsp;以下内容主要是通过在学习和工作中的一些总结和感悟，很多概念上的东西都主要来自于书籍和网络，毕竟这些基础知识还是以官网为准。
