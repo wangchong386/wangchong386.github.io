@@ -1,6 +1,6 @@
 ---
 layout: article
-title:  "hadoop OutOfMemoryError **error in shuffle in fetcher**)"
+title:  "Yarn在Shuffle阶段内存不足问题(error in shuffle in fetcher)"
 categories: hadoop
 toc: true
 image:
@@ -61,40 +61,3 @@ image:
 > __将该任务的hiveql找出来，发现该表分区一天有12G数据量，由于是全量存取的用户登录数据。虽然数据量很大，但是以前为什么没有出现过这种内存溢出的错误？难道是小概率问题？最后重跑了一次脚本结果可以正确执行，也没有报错__
 
 ## 故障产生原因
-1. 
-2. 每隔一段时间，目前世界范围内通用的协调世界时(UTC)会与依据地球围绕太阳运动计算的平太阳日和世界时(UT1)出现很小的偏差，需要对UTC增加或者减少一秒来消除。
-
-## 4.解决方法
-1. 简要解决方法：在发生闰秒前停掉ntpd服务，闰秒发生后再开启ntpd
-
-2. 根解：放弃使用ntpd，使用简化的sntp协议，同时在实现直接调用settimeofday来完成，不会触发内核的事件调整异常
- Java Fortunately the fix is straightforward:
-
-```
-/etc/init.d/ntp stop
-date -s "$(date)"
-```
-
- Mysql
-
-{% highlight bash %}
-{% raw %}
-
-The fix is quite simple – simply set the date. Alternatively, you can restart the machine, which also works. Restarting MySQL (or Java, or whatever) does NOT fix the problem. We put the following into puppet to run on all our machines:
-
-$ cat files/bin/leap-second.sh
-
-`#!/bin/bash`
-`# this is a quick-fix to the 6/30/12 leap second bug`
-
-if [ ! -f /tmp/leapsecond_2012_06_30 ]
-then
-/etc/init.d/ntpd stop; date -s "`date`" && /bin/touch /tmp/leapsecond_2012_06_30
-fi
-
-{% endraw %}
-{% endhighlight %}
-
-## 经验总结
-1. 发现问题应及时处理，并与团队以及业务进行沟通
-2.  闰秒问题每隔18个月出现，应提前准备
