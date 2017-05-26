@@ -126,6 +126,7 @@ image:
 
 默认值：10
 说明：Reduce Task中合并小文件时，一次合并的文件数据，每次合并的时候选择最小的前10进行合并。
+
 `mapreduce.task.io.sort.mb`：
 
 默认值：100
@@ -134,14 +135,17 @@ image:
 
 默认值：-Xmx200m
 说明：jvm启动的子线程可以使用的最大内存。建议值-XX:-UseGCOverheadLimit -Xms512m -Xmx2048m -verbose:gc -Xloggc:/tmp/@taskid@.gc
+
 `mapreduce.jobtracker.handler.count`：
 
 默认值：10
 说明：JobTracker可以启动的线程数，一般为tasktracker节点的4%。
+
 `mapreduce.reduce.shuffle.parallelcopies`：
 
 默认值：5
 说明：reuduce shuffle阶段并行传输数据的数量。这里改为10。集群大可以增大。
+
 `mapreduce.tasktracker.http.threads`：
 
 默认值：40
@@ -150,35 +154,40 @@ image:
 
 默认值：false
 说明： map输出是否进行压缩，如果压缩就会多耗cpu，但是减少传输时间，如果不压缩，就需要较多的传输带宽。配合`mapreduce.map.output.compress.codec`使用，默认是`org.apache.hadoop.io.compress.DefaultCodec`，可以根据需要设定数据压缩方式。
+
 `mapreduce.reduce.shuffle.merge.percent`：
 
 默认值： 0.66
 说明：reduce归并接收map的输出数据可占用的内存配置百分比。类似`mapreduce.reduce.shuffle.input.buffer.percent`属性。
+
 `mapreduce.reduce.shuffle.memory.limit.percent`：
 
 默认值： 0.25
 说明：一个单一的shuffle的最大内存使用限制。
+
 `mapreduce.jobtracker.handler.count`：
 
 默认值： 10
 说明：可并发处理来自tasktracker的RPC请求数，默认值10。
+
 `mapred.job.reuse.jvm.num.tasks（mapreduce.job.jvm.numtasks）`：
 
 默认值： 1
 说明：一个jvm可连续启动多个同类型任务，默认值1，若为-1表示不受限制。
+
 `mapreduce.tasktracker.tasks.reduce.maximum`：
 
 默认值： 2
 说明：一个tasktracker并发执行的reduce数，建议为cpu核数
-4. 系统优化
-4.1 避免排序
+### 4. 系统优化
+* 4.1 避免排序
 
 对于一些不需要排序的应用，比如hash join或者limit n，可以将排序变为可选环节，这样可以带来一些好处：
 
 在Map Collect阶段，不再需要同时比较partition和key，只需要比较partition，并可以使用更快的计数排序（O(n)）代替快速排序（O(NlgN)）
 在Map Combine阶段，不再需要进行归并排序，只需要按照字节合并数据块即可。
 去掉排序之后，Shuffle和Reduce可同时进行，这样就消除了Reduce Task的屏障（所有数据拷贝完成之后才能执行reduce()函数）。
-4.2 Shuffle阶段内部优化
+* 4.2 Shuffle阶段内部优化
 
 Map端–用Netty代替Jetty
 Reduce端–批拷贝
@@ -187,8 +196,13 @@ Reduce端–批拷贝
 在运行mapreduce任务中，经常调整的参数有：
 
 `mapred.reduce.tasks`：手动设置reduce个数
+
 `mapreduce.map.output.compress`：map输出结果是否压缩
+
 `mapreduce.map.output.compress.codec`
+
 `mapreduce.output.fileoutputformat.compress`：job输出结果是否压缩
+
 `mapreduce.output.fileoutputformat.compress.type`
+
 `mapreduce.output.fileoutputformat.compress.codec`
