@@ -1,6 +1,6 @@
 ---
 layout: article
-title:  "hadoop OutOfMemoryError"
+title:  "hadoop OutOfMemoryError **error in shuffle in fetcher**)"
 categories: hadoop
 toc: true
 image:
@@ -61,7 +61,7 @@ image:
 > __将该任务的hiveql找出来，发现该表分区一天有12G数据量，由于是全量存取的用户登录数据。虽然数据量很大，但是以前为什么没有出现过这种内存溢出的错误？难道是小概率问题？最后重跑了一次脚本结果可以正确执行，也没有报错__
 
 ## 故障产生原因
-1. 。 
+1. 
 2. 每隔一段时间，目前世界范围内通用的协调世界时(UTC)会与依据地球围绕太阳运动计算的平太阳日和世界时(UT1)出现很小的偏差，需要对UTC增加或者减少一秒来消除。
 
 ## 4.解决方法
