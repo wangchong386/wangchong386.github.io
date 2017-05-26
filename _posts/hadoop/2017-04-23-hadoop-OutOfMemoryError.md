@@ -73,4 +73,4 @@ image:
 
 &emsp;&emsp;其次，要抛出如上异常，还需满足另外一个条件，就是map任务的数据一下子准备好了等待shuffle去复制，在这种情况下，就会导致shuffle过程的“线程数量”和“内存buffer使用量”都是满负荷的值，自然就造成了内存不足的错误；而如果map任务的数据是断断续续完成的，那么没有一个时刻shuffle过程的“线程数量”和“内存buffer使用量”是满负荷值的，自然也就不会抛出如上错误
 
-另外，如果在设置以上参数后，还是出现错误，那么有可能是运行Reduce任务的进程的内存总量不足，可以通过mapred.child.Java.opts参数来调节，比如设置mapred.child.java.opts=-Xmx2024m。
+3. 另外，如果在设置以上参数后，还是出现错误，那么有可能是运行Reduce任务的进程的内存总量不足，可以通过mapred.child.Java.opts参数来调节，比如设置mapred.child.java.opts=-Xmx2024m。
