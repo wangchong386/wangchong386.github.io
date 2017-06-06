@@ -4,8 +4,6 @@ title: Facebook OnlineSchemaChange 再开源和改进介绍
 categories: mysql
 #excerpt:
 #tags: []
-image:
-    teaser: /teaser/osc.jpg
 #    thumb:
 ---
 
