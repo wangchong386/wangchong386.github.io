@@ -4,7 +4,7 @@ title:  "hadoop2.0 yarn原理"
 categories: hadoop
 toc: true
 image:
-    teaser: /teaser/Hadoop-YARN.png
+    teaser: /teaser/Hadoop-YARN.jpg
 ---
 
 > 本文简单地讲述hadoop mapreduceV2 框架 yarn的工作原理。由于mapreduceV1框架在大集群中面临着扩展性瓶颈，所以2010年雅虎团队开始设计了mapreduceV2框架Yarn (yet another resource negotiaor), 旨在解决mrV1中JobTrack职能过重的瓶颈问题。
