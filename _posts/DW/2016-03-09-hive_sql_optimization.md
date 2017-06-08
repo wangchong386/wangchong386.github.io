@@ -4,7 +4,7 @@ title:  "数据仓库之路一"
 categories: DW
 toc: true
 image:
-    teaser: /teaser/hive_sql1.jpg
+    teaser: /teaser/hive_sql1.png
 ---
 
 > 本文主要介绍在w公司的数据仓库之路
