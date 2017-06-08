@@ -11,12 +11,11 @@ image:
 
 ### 前言
 &emsp;&emsp;以下内容主要是通过在学习和工作中的一些总结和感悟，很多概念上的东西都主要来自于书籍和网络，毕竟这些基础知识还是以官网为准。
-## 故障现象
-&emsp;&emsp;从这次出现的事故说起吧，在凌晨一点多接到运维电话。报ETL流程失败
+### yarn框架图
 
+来源于官网的yarn架构图：
+/hadoop/YARN/yarn_Architecture.png
 
-    | 时间    | 事件| 
-    | 01:34   | 日志检查失败，ETL流程异常退出，其中有一个任务：Caused by: java.lang.OutOfMemoryError: Java heap space
 
 
 * 查看日志发现有任务的确是java.lang.OutOfMemoryError错误，主要错误日志如下：
