@@ -121,6 +121,5 @@ rfx table : rfx_id ,seller_id,product id, price,pay_date,GMV
 &emsp;&emsp;用户表、商家表、时间表这些都属于维度表，这些表都有一个唯一的主键，然后在表中存放了详细的数据信息。
 ## 6. 学一点数据仓库知识好处
 
-![DataWarehouse](http://ww1.sinaimg.cn/large/a8a646f9ly1ffm9bnoyupj20m80go0uv.jpg)
 &emsp;&emsp;数据仓库通过对数据进行建模和重新组织，使得数据能够更容易的被统计和分析，为数据统计分析提供了一个新的思路与理念。即便我们不用数据仓库做前文提到的更宏观的目的，数据仓>库也能为我们提供一个不一样的思路，可以用在系统设计过程中，让系统更简单高效。
 
