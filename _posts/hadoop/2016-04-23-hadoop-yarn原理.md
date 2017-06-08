@@ -14,9 +14,8 @@ image:
 ### yarn框架图
 
 来源于官网的yarn架构图：
-/hadoop/YARN/yarn_Architecture.png
 
-
+![YARN架构图](/images/hadoop/YARN/yarn_Architecture.png)
 
 * 查看日志发现有任务的确是java.lang.OutOfMemoryError错误，主要错误日志如下：
 {% highlight bash %}
