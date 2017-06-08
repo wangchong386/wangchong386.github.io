@@ -17,190 +17,76 @@ image:
 
 ![YARN架构图](/images/hadoop/YARN/yarn_Architecture.png)
 
-* 查看日志发现有任务的确是java.lang.OutOfMemoryError错误，主要错误日志如下：
+如上图，yarn将原本mrV1中JobTrack的的职能划分为多个独立的实体，包括管理集群资源的资源管理器和管理集群上运行任务生命周期的应用管理器。 应用服务器和资源管理器协商分配集群的计算资源：容器。容器是yarn为集群资源进行隔离而提出来的框架，容器是一个动态分配的资源单位， 其将cpu、内存、磁盘、网络等资源封装成为一个实体。每一个任务对应一个容器，所以任务只能在对应的容器里跑的。 容器由集群节点上运行的节点管理器进行监视，确保应用程序使用的资源不会超过其被分配的资源。 所以yarn框架里有3个重要的M分别是：
 {% highlight bash %}
 {% raw %}
 
- Examining task ID: task_1495604758492_3152$m_000477 (and more) from job job_1495604758492_3152
-
- Task with the most failures(4):
- -----
- Task ID:
-   task_1495604758492_3152_r_000001
-
- URL:
-   http://d1-datanode32:8088/taskdetails.js$?jobid=job_1495604758492_3152&tipid=task_1495604758492_3152_r_000001
- -----
- Diagnostic Messages for this Task:
- Error: org.apache.hadoop.mapreduce.task.re$uce.Shuffle$ShuffleError: error in shuffle in fetcher#16
-   at org.apache.hadoop.mapreduce.task.redu$e.Shuffle.run(Shuffle.java:134)
-   at org.apache.hadoop.mapred.ReduceTask.r$n(ReduceTask.java:376)
-   at org.apache.hadoop.mapred.YarnChild$2.$un(YarnChild.java:163)
-   at java.security.AccessController.doPriv$leged(Native Method)
-   at javax.security.auth.Subject.doAs(Subj$ct.java:415)
-   at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1671)
-   at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:158)
- Caused by: java.lang.OutOfMemoryError: Java heap space
-   at org.apache.hadoop.io.BoundedByteArrayOutputStream.<init>(BoundedByteArrayOutputStream.java:56)
-   at org.apache.hadoop.io.BoundedByteArrayOutputStream.<init>(BoundedByteArrayOutputStream.java:46)
-   at org.apache.hadoop.mapreduce.task.reduce.InMemoryMapOutput.<init>(InMemoryMapOutput.java:63)
-   at org.apache.hadoop.mapreduce.task.reduce.MergeManagerImpl.unconditionalReserve(MergeManagerImpl.java:305)
-   at org.apache.hadoop.mapreduce.task.reduce.MergeManagerImpl.reserve(MergeManagerImpl.java:295)
-   at org.apache.hadoop.mapreduce.task.reduce.Fetcher.copyMapOutput(Fetcher.java:514)
-   at org.apache.hadoop.mapreduce.task.reduce.Fetcher.copyFromHost(Fetcher.java:336)
-   at org.apache.hadoop.mapreduce.task.reduce.Fetcher.run(Fetcher.java:193)
- FAILED: Execution Error, return code 2 from org.apache.hadoop.hive.ql.exec.mr.MapRedTask
- MapReduce Jobs Launched:
- Stage-Stage-1: Map: 485  Reduce: 7   Cumulative CPU: 11740.0 sec   HDFS Read: 13431704785 HDFS Write: 0 FAIL
+RM      Resource Manager        资源管理器
+AM      Application Master      应用程序管理器
+NM      Node Manager            节点管理器
 {% endraw %}
 {% endhighlight %}
 
-* 相信对于java人员来说出现java.lang.OutOfMemoryError: Java heap space时很常见的。一般是因为：当应用程序试图向堆空间添加更多的数据，但堆却没有足够的空间来容纳这些数据时，将会触发java.lang.OutOfMemoryError: Java heap space异常。需要注意的是：即使有足够的物理内存可用，只要达到堆空间设置的大小限制，此异常仍然会被触发。
-> __将该任务的hiveql找出来，发现该表分区一天有12G数据量，由于是全量存取的用户登录数据。虽然数据量很大，但是以前为什么没有出现过这种内存溢出的错误？难道是小概率问题？最后重跑了一次脚本结果可以正确执行，也没有报错__
+yarn比mrV1包括更多的实体：
+*   提交mapreduce作业的客户端
+*   yarn资源管理器， 负责协调集群上计算资源的分配
+*   yarn节点管理器， 负责启动和监视集群中机器上的计算容器。
+*   应用程序管理器， 负责协调运行mapreduce作业的任务， 其和mapreduce任务都在容器中运行， 这些容器由资源管理器分配并且由节点管理器进行管理。
+*   hdfs， 用来和其他实体间共享作业文件。
 
-## 解决方法：限制reduce的shuffle内存使用 
-1. 具体的来说，shuffle过程的输入是：map任务的输出文件，它的输出接收者是：运行reduce任务的机子上的内存buffer，并且shuffle过程以并行方式运行
-参数mapreduce.reduce.shuffle.input.buffer.percent控制运行reduce任务的机子上多少比例的内存用作上述buffer(默认值为0.70)，参数mapreduce.reduce.shuffle.parallelcopies控制shuffle过程的并行度(默认值为5)
-那么"mapreduce.reduce.shuffle.input.buffer.percent" * "mapreduce.reduce.shuffle.parallelcopies" 必须小于等于1，否则就会出现如上错误
-![](http://ww1.sinaimg.cn/large/a8a646f9ly1ffz6awdedrj20p3042q2z.jpg)
-因此，我将mapreduce.reduce.shuffle.input.buffer.percent设置成值为0.1，就可以正常运行了（设置成0.2，还是会抛同样的错）
+### 下面分别讲解这3M
 
+资源管理器 RM
 
-2. 另外，可以发现如果使用两个参数的默认值，那么两者乘积为3.5，大大大于1了，为什么没有经常抛出以上的错误呢？
+RM是一个全局的资源管理器，其负责整个系统资源的管理，和AM协调应用程序资源的分配。RM主要分为调度器和ASM（Applications Manager）。
 
-&emsp;&emsp; 首先，把默认值设为比较大，主要是基于性能考虑，将它们设为比较大，可以大大加快从map复制数据的速度
+调度器
 
-&emsp;&emsp;其次，要抛出如上异常，还需满足另外一个条件，就是map任务的数据一下子准备好了等待shuffle去复制，在这种情况下，就会导致shuffle过程的“线程数量”和“内存buffer使用量”都是满负荷的值，自然就造成了内存不足的错误；而如果map任务的数据是断断续续完成的，那么没有一个时刻shuffle过程的“线程数量”和“内存buffer使用量”是满负荷值的，自然也就不会抛出如上错误
+调度器根据系统状态将系统中的资源分配给正在运行的应用程序，调度器只关注系统调度工作而不参与应用程序相关的其他工作， 如状态监控、重启失败任务等。调度器会与AM相协调， 根据每个应用程序的资源需求进行分配资源，这个资源其实就是上面提到过的容器。 yarn提供多种直接可用的调度器，如公平调度（fair scheduler）、容量调度（capacity scheduler）。 调度器还是一个可插拔的部分， 用户可用根据自己的需要实现满足需求的调度器。
 
-3. 另外，如果在设置以上参数后，还是出现错误，那么有可能是运行Reduce任务的进程的内存总量不足，可以通过mapred.child.Java.opts参数来调节，比如设置mapred.child.java.opts=-Xmx2024m。
- ![](http://ww1.sinaimg.cn/large/a8a646f9ly1ffz67n05oqj20ux0axjsb.jpg)
-## MapReduce任务参数调优
-### 1. 操作系统调优
-增大打开文件数据和网络连接上限，调整内核参数`net.core.somaxconn`，提高读写速度和网络带宽使用率
-适当调整`epoll`的文件描述符上限，提高Hadoop RPC并发
-关闭`swap`。如果进程内存不足，系统会将内存中的部分数据暂时写入磁盘，当需要时再将磁盘上的数据动态换置到内存中，这样会降低进程执行效率
-增加预读缓存区大小。预读可以减少磁盘寻道次数和I/O等待时间
-设置`openfile`
-### 2. Hdfs参数调优
-* 2.1 core-default.xml：
+ASM
 
-`hadoop.tmp.dir`：
+ASM是负责管理整个系统中所有应用程序的，包括应用程序提交、与调度器协商启动AM需要的资源、监控AM运行状态、AM失败时重启AM。 所以ASM的作用更体现在管理AM上，在作业提交后，负责与调度器协调分配AM运行的资源，然后跟NM通信，启动和监控AM。
 
-默认值： /tmp
-说明： 尽量手动配置这个选项，否则的话都默认存在了里系统的默认临时文件/tmp里。并且手动配置的时候，如果服务器是多磁盘的，每个磁盘都设置一个临时文件目录，这样便于mapreduce或者hdfs等使用的时候提高磁盘IO效率。
-`fs.trash.interval`：
+节点管理器 NM
 
-默认值： 0
-说明： 这个是开启hdfs文件删除自动转移到垃圾箱的选项，值为垃圾箱文件清除时间。一般开启这个会比较好，以防错误删除重要文件。单位是分钟。
-`io.file.buffer.size`：
+在集群的节点上都有一个资源和任务管理器，称为节点管理器（NM）。NM负责启动容器、AM并且定时地向RM汇报本节点上的资源情况和容器的状态。
 
-默认值：4096
-说明：SequenceFiles在读写中可以使用的缓存大小，可减少 I/O 次数。在大型的 Hadoop cluster，建议可设定为 65536 到 131072。
-* 2.2 hdfs-default.xml：
+应用程序管理器 AM
 
-`dfs.blocksize`：
+用户提交的每一个应用程序都包含AM，所以AM使用用户编写的代码，从yarn框架的角度来看，这些用户代码潜在安全问题，所以yarn会假设AM是存在漏洞的， 无法当作特权代码来运行。 AM的主要功能：
 
-默认值：134217728
-说明： 这个就是hdfs里一个文件块的大小了，CDH5中默认128M。太大的话会有较少map同时计算，太小的话也浪费可用map个数资源，而且文件太小namenode就浪费内存多。根据需要进行设置。
-`dfs.namenode.handler.count`：
+1、与RM的调度器协商获取资源，其实就是容器了。
+2、与NM通信得以启动或者停止任务。
+3、监控任务。任务通过umbilical定时向AM汇报进度和状态。
+4、与客户端通信，汇报进度给客户端。
+yarn的工作流程
 
-默认值：10
-说明：设定 namenode server threads 的数量，这些 threads 會用 RPC 跟其他的 datanodes 沟通。当 datanodes 数量太多时会发現很容易出現 RPC timeout，解決方法是提升网络速度或提高这个值，但要注意的是 thread 数量多也表示 namenode 消耗的内存也随着增加
-### 3. MapReduce参数调优
-包括以下节点：
+当用户向系统提交一个应用程序（作业）后，yarn会分两个阶段运行这个程序：
 
-合理设置槽位数目
-调整心跳配置
-磁盘块配置
-设置RPC和线程数目
-启用批量任务调度
-* 3.1 mapred-default.xml：
+1、启动AM。
 
-`mapred.reduce.tasks（mapreduce.job.reduces）`：
+2、由AM启动创建应用程序中的任务并且监控其状态，直到其运行完成或者无法完成而失败。
 
-默认值：1
-说明：默认启动的reduce数。通过该参数可以手动修改reduce的个数。
-`mapreduce.task.io.sort.factor`：
+作业运行过程
 
-默认值：10
-说明：Reduce Task中合并小文件时，一次合并的文件数据，每次合并的时候选择最小的前10进行合并。
+当用户向系统提交一个作业时，这个作业的具体生命周期如下：
 
-`mapreduce.task.io.sort.mb`：
+1、用户提交作业，从RM上获取作业ID。yarn实现了ClientProtocol，当mapreduce.framwork.name为yarn时启动。
 
-默认值：100
-说明： Map Task缓冲区所占内存大小。
-`mapred.child.java.opts`：
+2、RM为作业分配一个容器以运行AM。当容器被分配后，RM与对应的NM通信， 要求其在对应的容器内启动AM。
 
-默认值：-Xmx200m
-说明：jvm启动的子线程可以使用的最大内存。建议值-XX:-UseGCOverheadLimit -Xms512m -Xmx2048m -verbose:gc -Xloggc:/tmp/@taskid@.gc
+3、AM向RM注册，用户可以通过RM看到作业的状态。然后AM轮询地为每个任务向RM申请资源，并且监控这些任务直到其完成或者失败。即重复下述的4～7。
 
-`mapreduce.jobtracker.handler.count`：
+4、AM采取轮询的方式通过RPC向RM申请资源。
 
-默认值：10
-说明：JobTracker可以启动的线程数，一般为tasktracker节点的4%。
+5、得到资源后，与NM通信，启动对应的任务。
 
-`mapreduce.reduce.shuffle.parallelcopies`：
+6、NM为任务配置运行环境（jar、环境变量等），启动任务。
 
-默认值：5
-说明：reuduce shuffle阶段并行传输数据的数量。这里改为10。集群大可以增大。
+7、各个任务通过RPC向AM汇报自身的状态、进度等信息。
 
-`mapreduce.tasktracker.http.threads`：
+8、当作业完成后，AM向RM注销并且关闭自己。
 
-默认值：40
-说明：map和reduce是通过http进行数据传输的，这个是设置传输的并行线程数。
-`mapreduce.map.output.compress`：
+作业提交后，客户端可以向AM查看作业的状态，所以在作业提交后，作业的运行跟client机器（不在集群里）没有太大的关系。 而作业里的多个任务可以并行地在集群里不同的节点上运行，从而提高运行效率。
 
-默认值：false
-说明： map输出是否进行压缩，如果压缩就会多耗cpu，但是减少传输时间，如果不压缩，就需要较多的传输带宽。配合`mapreduce.map.output.compress.codec`使用，默认是`org.apache.hadoop.io.compress.DefaultCodec`，可以根据需要设定数据压缩方式。
-
-`mapreduce.reduce.shuffle.merge.percent`：
-
-默认值： 0.66
-说明：reduce归并接收map的输出数据可占用的内存配置百分比。类似`mapreduce.reduce.shuffle.input.buffer.percent`属性。
-
-`mapreduce.reduce.shuffle.memory.limit.percent`：
-
-默认值： 0.25
-说明：一个单一的shuffle的最大内存使用限制。
-
-`mapreduce.jobtracker.handler.count`：
-
-默认值： 10
-说明：可并发处理来自tasktracker的RPC请求数，默认值10。
-
-`mapred.job.reuse.jvm.num.tasks（mapreduce.job.jvm.numtasks）`：
-
-默认值： 1
-说明：一个jvm可连续启动多个同类型任务，默认值1，若为-1表示不受限制。
-
-`mapreduce.tasktracker.tasks.reduce.maximum`：
-
-默认值： 2
-说明：一个tasktracker并发执行的reduce数，建议为cpu核数
-### 4. 系统优化
-* 4.1 避免排序
-
-对于一些不需要排序的应用，比如hash join或者limit n，可以将排序变为可选环节，这样可以带来一些好处：
-
-在Map Collect阶段，不再需要同时比较partition和key，只需要比较partition，并可以使用更快的计数排序（O(n)）代替快速排序（O(NlgN)）
-在Map Combine阶段，不再需要进行归并排序，只需要按照字节合并数据块即可。
-去掉排序之后，Shuffle和Reduce可同时进行，这样就消除了Reduce Task的屏障（所有数据拷贝完成之后才能执行reduce()函数）。
-* 4.2 Shuffle阶段内部优化
-
-Map端–用Netty代替Jetty
-Reduce端–批拷贝
-将Shuffle阶段从Reduce Task中独立出来
-5. 总结
-在运行mapreduce任务中，经常调整的参数有：
-
-`mapred.reduce.tasks`：手动设置reduce个数
-
-`mapreduce.map.output.compress`：map输出结果是否压缩
-
-`mapreduce.map.output.compress.codec`
-
-`mapreduce.output.fileoutputformat.compress`：job输出结果是否压缩
-
-`mapreduce.output.fileoutputformat.compress.type`
-
-`mapreduce.output.fileoutputformat.compress.codec`
