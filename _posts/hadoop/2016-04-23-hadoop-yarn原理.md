@@ -7,7 +7,7 @@ image:
     teaser: /teaser/Hadoop-YARN.jpg
 ---
 
-> 本文简单地讲述hadoop mapreduceV2 框架 yarn的工作原理。由于mapreduceV1框架在大集群中面临着扩展性瓶颈，mapreduceV2框架Yarn完美解决
+> 本文简单地讲述hadoop mapreduceV2 框架 yarn的工作原理。
 
 ### 前言
 &emsp;&emsp;以下内容主要是通过在学习和工作中的一些总结和感悟，很多概念上的东西都主要来自于书籍和网络，毕竟这些基础知识还是以官网为准。
