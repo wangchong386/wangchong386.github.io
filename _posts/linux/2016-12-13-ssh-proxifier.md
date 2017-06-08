@@ -3,7 +3,7 @@ layout: article
 title:  "配置Bitvise SSH Client以及proxifier做全局代理"
 categories: linux
 image:
-    teaser: /teaser/Proxifier.jpg
+    teaser: /teaser/ssh.jpg
 ---
 
 > 本文主要介绍配置Bitvise SSH Client以及proxifier做全局代理
