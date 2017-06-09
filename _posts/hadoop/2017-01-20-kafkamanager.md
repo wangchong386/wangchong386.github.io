@@ -26,10 +26,15 @@ image:
 * 在多个topic上批量重分区(可选partition broker位置)
 
 ## 运行的环境要求
-
-
+1. Kafka 0.8.1.1+
+2. sbt 0.13.x
+3. Java 7+
+## 下载,编译,打包
+获取kafka-manager源码，并编译打包，包会生成在(kafka-manager/target/universal)
 {% highlight bash %}
 {% raw %}
-
+git clone https://github.com/yahoo/kafka-manager
+cd kafka-manager
+./sbt clean dist
 {% endraw %}
 {% endhighlight %}
