@@ -47,14 +47,11 @@ kafka-manager.zkhosts="hostname1,hostname2:2181"
 kafka-manager.zkhosts=${?ZK_HOSTS}
 
 ```
-* 1. 解压
-
+* 解压
 `unzip kafka-manager-1.3.4.zip`
-* 2. 修改配置
-
+* 修改配置
 `vim /usr/local/kafka-manager/kafka-manager/conf/application.conf`
-
-* 3. 启动,指定配置文件位置和启动端口号，默认为9000(可以将启动命令和参数放到启动脚本里)
+* 启动,指定配置文件位置和启动端口号，默认为9000(可以将启动命令和参数放到启动脚本里)
 
 `vim start-kafka-manager.sh`
 
