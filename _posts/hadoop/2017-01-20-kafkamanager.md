@@ -76,8 +76,11 @@ $KAFKA_MANAGER_HOME/bin/kafka-manager -java-home /usr/java/jdk1.8.0_131/ -Dconfi
 ### tips:
 
 使用sbt编译打包的时候时间可能会比较长，如果你hang在
-
-`Loading project definition from /kafka-manager/project`
+{% highlight bash %}
+{% raw %}
+Loading project definition from /kafka-manager/project
+{% endraw %}
+{% endhighlight %}
 可以修改`project/plugins.sbt`中的`LogLevel`参数
 
 将`logLevel := Level.Warn`修改为`logLevel := Level.Debug`
