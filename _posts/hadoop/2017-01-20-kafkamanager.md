@@ -4,13 +4,12 @@ title:  "Kafka Manager安装使用"
 categories: hadoop
 toc: true
 image:
-    teaser: /teaser/Hadoop-YARN.jpg
+    teaser: /teaser/kafkamanager.jpg
 ---
 
-> 本文简单地讲述hadoop mapreduceV2 框架 yarn的工作原理。
-
+> 本文主要介绍kafka manager的安装和使用
 ### 前言
-&emsp;&emsp;以下内容主要是通过在学习和工作中的一些总结和感悟，很多概念上的东西都主要来自于书籍和网络，毕竟这些基础知识还是以官网为准。
+&emsp;&emsp;Kafka manager是Yahoo开源的一个kafka GUI管理软件。
 ### yarn框架图
 
 来源于官网的yarn架构图：
