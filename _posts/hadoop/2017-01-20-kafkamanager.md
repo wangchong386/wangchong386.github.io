@@ -8,6 +8,8 @@ image:
 ---
 
 > 本文主要介绍kafka manager的安装和使用
+
+
 ### 前言
 &emsp;&emsp;Kafka manager是Yahoo开源的一个kafka GUI管理软件。
 ## 主要作用
@@ -30,7 +32,7 @@ image:
 2. sbt 0.13.x
 3. Java 7+
 ## 下载,编译,打包
-获取kafka-manager源码，并编译打包，包会生成在(kafka-manager/target/universal)
+获取kafka-manager源码，并编译打包，包会生成在(/usr/local/kafka-manager)
 {% highlight bash %}
 {% raw %}
 git clone https://github.com/yahoo/kafka-manager
@@ -38,3 +40,10 @@ cd kafka-manager
 ./sbt clean dist
 {% endraw %}
 {% endhighlight %}
+## 安装,配置,启动
+在conf/application.conf中将kafka-manager.zkhosts的值设置为你的zk地址
+```
+kafka-manager.zkhosts="hostname1,hostname2:2181"
+kafka-manager.zkhosts=${?ZK_HOSTS}
+
+```
