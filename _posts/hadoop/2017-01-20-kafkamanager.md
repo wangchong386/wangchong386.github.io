@@ -57,3 +57,14 @@ kafka-manager.zkhosts=${?ZK_HOSTS}
 KAFKA_MANAGER_HOME=/usr/local/kafka-manager/kafka-manager
 $KAFKA_MANAGER_HOME/bin/kafka-manager -java-home /usr/java/jdk1.8.0_131/ -Dconfig.file=$KAFKA_MANAGER_HOME/conf/application.conf -Dhttp.port=9020 >> $KAFKA_MANAGER_HOME/logs/kafka-manager_start.log 2>&1 &
 ```
+
+### tips:
+
+使用sbt编译打包的时候时间可能会比较长，如果你hang在
+
+`Loading project definition from /kafka-manager/project`
+可以修改`project/plugins.sbt`中的`LogLevel`参数
+
+将`logLevel := Level.Warn`修改为`logLevel := Level.Debug`
+
+[lkafka manager Git地址](https://github.com/yahoo/kafka-manager)
