@@ -50,11 +50,11 @@ kafka-manager.zkhosts=${?ZK_HOSTS}
 * 解压
 `unzip kafka-manager-1.3.4.zip`
 * 修改配置
-`vim /usr/local/kafka-manager/kafka-manager/conf/application.conf`
+```vim /usr/local/kafka-manager/kafka-manager/conf/application.conf```
 * 启动,指定配置文件位置和启动端口号，默认为9000(可以将启动命令和参数放到启动脚本里)
-
-`vim start-kafka-manager.sh`
-
+```
+vim start-kafka-manager.sh
+```
 {% highlight bash %}
 {% raw %}
 KAFKA_MANAGER_HOME=/usr/local/kafka-manager/kafka-manager
