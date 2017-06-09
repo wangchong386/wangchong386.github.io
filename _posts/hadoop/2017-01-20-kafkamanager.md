@@ -48,15 +48,22 @@ kafka-manager.zkhosts=${?ZK_HOSTS}
 
 ```
 > 1. 解压
+
 `unzip kafka-manager-1.3.4.zip`
 > 2. 修改配置
+
 `vim /usr/local/kafka-manager/kafka-manager/conf/application.conf`
+
 > 3. 启动,指定配置文件位置和启动端口号，默认为9000(可以将启动命令和参数放到启动脚本里)
+
 `vim start-kafka-manager.sh`
-```
+
+{% highlight bash %}
+{% raw %}
 KAFKA_MANAGER_HOME=/usr/local/kafka-manager/kafka-manager
 $KAFKA_MANAGER_HOME/bin/kafka-manager -java-home /usr/java/jdk1.8.0_131/ -Dconfig.file=$KAFKA_MANAGER_HOME/conf/application.conf -Dhttp.port=9020 >> $KAFKA_MANAGER_HOME/logs/kafka-manager_start.log 2>&1 &
-```
+{% endraw %}
+{% endhighlight %}
 
 ### tips:
 
@@ -67,4 +74,4 @@ $KAFKA_MANAGER_HOME/bin/kafka-manager -java-home /usr/java/jdk1.8.0_131/ -Dconfi
 
 将`logLevel := Level.Warn`修改为`logLevel := Level.Debug`
 
-[lkafka manager Git地址](https://github.com/yahoo/kafka-manager)
+[kafka manager Git地址](https://github.com/yahoo/kafka-manager)
