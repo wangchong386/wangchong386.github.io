@@ -31,6 +31,7 @@ image:
 1. Kafka 0.8.1.1+
 2. sbt 0.13.x
 3. Java 7+
+
 ## 下载,编译,打包
 获取kafka-manager源码，并编译打包，包会生成在(/usr/local/kafka-manager)
 {% highlight bash %}
