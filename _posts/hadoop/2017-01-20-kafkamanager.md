@@ -49,6 +49,7 @@ kafka-manager.zkhosts=${?ZK_HOSTS}
 
 ```
 * 解压
+
 {% highlight bash %}
 {% raw %}
 unzip kafka-manager-1.3.4.zip
@@ -78,7 +79,9 @@ $KAFKA_MANAGER_HOME/bin/kafka-manager -java-home /usr/java/jdk1.8.0_131/ -Dconfi
 使用sbt编译打包的时候时间可能会比较长，如果你hang在
 {% highlight bash %}
 {% raw %}
+
 Loading project definition from /kafka-manager/project
+
 {% endraw %}
 {% endhighlight %}
 可以修改`project/plugins.sbt`中的`LogLevel`参数
