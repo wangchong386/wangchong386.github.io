@@ -83,8 +83,8 @@ The fix is quite simple – simply set the date. Alternatively, you can restart 
 
 $ cat files/bin/leap-second.sh
 
-`#!/bin/bash`
-`# this is a quick-fix to the 6/30/12 leap second bug`
+#!/bin/bash
+# this is a quick-fix to the 6/30/12 leap second bug
 
 if [ ! -f /tmp/leapsecond_2012_06_30 ]
 then
