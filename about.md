@@ -12,7 +12,7 @@ permalink: /about/
 ## 个人信息
 
  - 王冲/男/1991 
- - 本科/
+ - 本科/西安邮电大学
  - 工作年限：3年
  - 技术博客：http://www.chongblog.xyz
  - Github：https://github.com/wangchong386
