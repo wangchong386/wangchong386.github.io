@@ -9,9 +9,7 @@ permalink: /about/
 > Knowing WHAT is not enough, I need to know WHY.
 
 
-
-
-# 个人信息
+## 个人信息
 
  - 王冲/男/1991 
  - 本科/
