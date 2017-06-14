@@ -11,8 +11,8 @@ permalink: /about/
 * 王冲/男/1991年
 * 本科/西安邮电大学
 * 工作年限：3年
-* 技术博客:http://www.chongblog.xyz
-* Github:https://github.com/wangchong386
+* 技术博客: http://www.chongblog.xyz
+* Github:  https://github.com/wangchong386
 * 期望职位：数据仓库工程师，大数据基础架构师
 * 期望薪资：面议
 * 期望城市：北京
