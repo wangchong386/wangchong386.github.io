@@ -23,3 +23,4 @@ image:
 
 ![reduce_kill图](/images/hadoop/reduce/reduce_kill2.png)
 ## 原因分析
+* 在Yarn JobHistory UI上Note项显示：	`Reducer preempted to make room for pending map attempts`
