@@ -85,11 +85,26 @@ Reducer preempted to make room for pending map attempts
 {% endhighlight %}
 * 从实际监控来看，出现问题时，没跑完的map全在等待资源，而reduce在copy阶段已占用大量资源，由于map一直在等空闲资源，而reduce一直等未完成的map执行完，形成了一个死锁。AppMaster将reduce kill并释放资源。出现这种情况时，Job运行时间会增加几小时。甚至一直持续无法释放资源。这块需要了解下RMContainerAllocator
 ## RMContainerAllocator原理分析
-ContainerAllocator通过与RM通信，为Job申请资源，同时其维护一个心跳信息，获取新分配的资源和各Container运行情况。
 
-在注释中可以看到，map生命周期为`scheduled->assigned->completed，reduce`生命周期为`pending->scheduled->assigned->completed`。只要收到map的请求后，map的状态即变为scheduled状态，reduce根据map完成数和集群资源情况在pending和scheduled状态中变动。
+1. ContainerAllocator通过与RM通信，为Job申请资源，同时其维护一个心跳信息，获取新分配的资源和各Container运行情况。
+
+2. 在注释中可以看到，map生命周期为`scheduled->assigned->completed，reduce`生命周期为`pending->scheduled->assigned->completed`。只要收到map的请求后，map的状态即变为scheduled状态，reduce根据map完成数和集群资源情况在pending和scheduled状态中变动。
 > Vocabulary Used:
+> 
 > pending -> requests which are NOT yet sent to RM
+> 
 > scheduled -> requests which are sent to RM but not yet assigned
+> 
 > assigned -> requests which are assigned to a container
+> 
 > completed -> request corresponding to which container has completed
+3. ContainerAllocator将所有任务分成三类：
+* Failed Map。Priority为5。
+* Reduce。Priority为10。
+* Map。Priority为20。
+3. 源码分析：
+## 解决办法
+少部分map由于reduce占用过多资源，无法执行，Container中kill相关reduce，腾出资源让map继续执行。这里有个疑问，从源码和配置文件中，如果map出现资源不足的情况，reduce应该会立即释放资源，但为何map等待时间这么久？从log可以看到，container申请资源时间相当长，考虑到使用的是FairScheduler对于此问题，比较好的方案就是尽量错
+开大Job的执行时间，另外可适当调大COMPLETED_MAPS_FOR_REDUCE_SLOWSTART值，尽量让map多完成，但这样可能造成job运行时间变长。我找到集群中该参数发现已经设置过；哎！所以看来是需要设置为1了。(主要还是同时段启动的任务太多导致的)
+![reduce_kill图](/images/hadoop/reduce/reduce_kill3.png)
+&emsp;&emsp;所以最好就是调整参数：`mapreduce.job.reduce.slowstart.completedmaps`
