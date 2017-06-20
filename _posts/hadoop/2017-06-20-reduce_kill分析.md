@@ -83,3 +83,5 @@ Reducer preempted to make room for pending map attempts
 2017-06-20 03:55:21,863 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskAttemptImpl: attempt_1496750989788_76705_m_000018_0 TaskAttempt Transitioned from RUNNING to SUCCESS_FINISHING_CONTAINER
 {% endraw %}
 {% endhighlight %}
+* 从实际监控来看，出现问题时，没跑完的map全在等待资源，而reduce在copy阶段已占用大量资源，由于map一直在等空闲资源，而reduce一直等未完成的map执行完，形成了一个死锁。大约一个多小时后，AppMaster将reduce kill并释放资源。出现这种情况时，Job运行时间会增加几小时。这块需要了解下__RMContainerAllocator__
+## RMContainerAllocator原理分析
