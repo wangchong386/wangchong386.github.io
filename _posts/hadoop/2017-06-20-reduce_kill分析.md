@@ -30,6 +30,7 @@ Reducer preempted to make room for pending map attempts
 {% endraw %}
 {% endhighlight %}
 * 看日志
+1. 开始 
 {% highlight bash %}
 {% raw %}
 2017-06-20 03:54:31,683 INFO [main] org.apache.hadoop.yarn.event.AsyncDispatcher: Registering class org.apache.hadoop.mapreduce.jobhistory.EventType for class org.apache.hadoop.mapreduce.jobhistory.JobHistoryEventHandler
@@ -48,5 +49,20 @@ Reducer preempted to make room for pending map attempts
 2017-06-20 03:54:33,786 INFO [main] org.apache.hadoop.metrics2.impl.MetricsConfig: loaded properties from hadoop-metrics2.properties
 2017-06-20 03:54:33,937 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: Scheduled snapshot period at 10 second(s).
 2017-06-20 03:54:33,937 INFO [main] org.apache.hadoop.metrics2.impl.MetricsSystemImpl: MRAppMaster metrics system started
+{% endraw %}
+{% endhighlight %}
+2. 分配
+{% highlight bash %}
+{% raw %}
+2017-06-20 03:54:56,752 INFO [RMCommunicator Allocator] org.apache.hadoop.mapreduce.v2.app.rm.RMContainerAllocator: Assigned container container_e04_1496750989788_76705_01_000003 to attempt_1496750989788_76705_m_000003_0
+{% endraw %}
+{% endhighlight %}
+3. 启动
+{% highlight bash %}
+{% raw %}
+2017-06-20 03:54:57,042 INFO [ContainerLauncher #0] org.apache.hadoop.mapreduce.v2.app.launcher.ContainerLauncherImpl: Processing the event EventType: CONTAINER_REMOTE_LAUNCH for container container_e04_1496750989788_76705_01_000003 taskAttempt attempt_1496750989788_76705_m_000003_0
+2017-06-20 03:54:57,044 INFO [ContainerLauncher #0] org.apache.hadoop.mapreduce.v2.app.launcher.ContainerLauncherImpl: Launching attempt_1496750989788_76705_m_000003_0
+2017-06-20 03:54:57,047 INFO [ContainerLauncher #0] org.apache.hadoop.yarn.client.api.impl.ContainerManagementProtocolProxy: Opening proxy : d1-datanode32:8041
+2017-06-20 03:54:57,115 INFO [ContainerLauncher #0] org.apache.hadoop.mapreduce.v2.app.launcher.ContainerLauncherImpl: Shuffle port returned by ContainerManager for attempt_1496750989788_76705_m_000003_0 : 13562
 {% endraw %}
 {% endhighlight %}
