@@ -66,3 +66,20 @@ Reducer preempted to make room for pending map attempts
 2017-06-20 03:54:57,115 INFO [ContainerLauncher #0] org.apache.hadoop.mapreduce.v2.app.launcher.ContainerLauncherImpl: Shuffle port returned by ContainerManager for attempt_1496750989788_76705_m_000003_0 : 13562
 {% endraw %}
 {% endhighlight %}
+4.开始跑
+{% highlight bash %}
+{% raw %}
+2017-06-20 03:54:47,632 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.JobImpl: job_1496750989788_76705Job Transitioned from INITED to SETUP
+2017-06-20 03:54:47,635 INFO [CommitterEvent Processor #0] org.apache.hadoop.mapreduce.v2.app.commit.CommitterEventHandler: Processing the event EventType: JOB_SETUP
+2017-06-20 03:54:47,642 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.JobImpl: job_1496750989788_76705Job Transitioned from SETUP to RUNNING
+2017-06-20 03:54:47,842 INFO [eventHandlingThread] org.apache.hadoop.mapreduce.jobhistory.JobHistoryEventHandler: Event Writer setup for JobId: job_1496750989788_76705, File: hdfs://nameservice1:8020/user/hdfs/.staging/job_1496750989788_76705/job_1496750989788_76705_1.jhist
+2017-06-20 03:54:47,972 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskImpl: task_1496750989788_76705_m_000000 Task Transitioned from NEW to SCHEDULED
+{% endraw %}
+{% endhighlight %}
+5. 完成清理相关的信息，此时container已经退出
+{% highlight bash %}
+{% raw %}
+2017-06-20 03:55:21,861 INFO [IPC Server handler 16 on 43744] org.apache.hadoop.mapred.TaskAttemptListenerImpl: Done acknowledgement from attempt_1496750989788_76705_m_000018_0
+2017-06-20 03:55:21,863 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskAttemptImpl: attempt_1496750989788_76705_m_000018_0 TaskAttempt Transitioned from RUNNING to SUCCESS_FINISHING_CONTAINER
+{% endraw %}
+{% endhighlight %}
