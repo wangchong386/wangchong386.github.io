@@ -76,7 +76,7 @@ Reducer preempted to make room for pending map attempts
 2017-06-20 03:54:47,972 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskImpl: task_1496750989788_76705_m_000000 Task Transitioned from NEW to SCHEDULED
 {% endraw %}
 {% endhighlight %}
-5. 完成清理相关的信息，此时container已经退出
+5.完成清理相关的信息，此时container已经退出
 {% highlight bash %}
 {% raw %}
 2017-06-20 03:55:21,861 INFO [IPC Server handler 16 on 43744] org.apache.hadoop.mapred.TaskAttemptListenerImpl: Done acknowledgement from attempt_1496750989788_76705_m_000018_0
