@@ -4,7 +4,7 @@ title:  "mapreduce中reduce一直被kill分析"
 categories: hadoop
 toc: true
 image:
-    teaser: /teaser/kafkamanager.jpg
+    teaser: /teaser/reduce_kill.jpg
 ---
 
 > 本文主要介绍mapreduce出现类似死锁应该如何处理
