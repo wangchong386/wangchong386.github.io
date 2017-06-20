@@ -83,5 +83,13 @@ Reducer preempted to make room for pending map attempts
 2017-06-20 03:55:21,863 INFO [AsyncDispatcher event handler] org.apache.hadoop.mapreduce.v2.app.job.impl.TaskAttemptImpl: attempt_1496750989788_76705_m_000018_0 TaskAttempt Transitioned from RUNNING to SUCCESS_FINISHING_CONTAINER
 {% endraw %}
 {% endhighlight %}
-* 从实际监控来看，出现问题时，没跑完的map全在等待资源，而reduce在copy阶段已占用大量资源，由于map一直在等空闲资源，而reduce一直等未完成的map执行完，形成了一个死锁。大约一个多小时后，AppMaster将reduce kill并释放资源。出现这种情况时，Job运行时间会增加几小时。这块需要了解下__RMContainerAllocator__
+* 从实际监控来看，出现问题时，没跑完的map全在等待资源，而reduce在copy阶段已占用大量资源，由于map一直在等空闲资源，而reduce一直等未完成的map执行完，形成了一个死锁。AppMaster将reduce kill并释放资源。出现这种情况时，Job运行时间会增加几小时。甚至一直持续无法释放资源。这块需要了解下RMContainerAllocator
 ## RMContainerAllocator原理分析
+ContainerAllocator通过与RM通信，为Job申请资源，同时其维护一个心跳信息，获取新分配的资源和各Container运行情况。
+
+在注释中可以看到，map生命周期为`scheduled->assigned->completed，reduce`生命周期为`pending->scheduled->assigned->completed`。只要收到map的请求后，map的状态即变为scheduled状态，reduce根据map完成数和集群资源情况在pending和scheduled状态中变动。
+> Vocabulary Used:
+> pending -> requests which are NOT yet sent to RM
+> scheduled -> requests which are sent to RM but not yet assigned
+> assigned -> requests which are assigned to a container
+> completed -> request corresponding to which container has completed
