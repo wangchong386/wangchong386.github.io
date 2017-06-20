@@ -102,6 +102,7 @@ Reducer preempted to make room for pending map attempts
 * Failed Map。Priority为5。
 * Reduce。Priority为10。
 * Map。Priority为20。
+&emsp;&emsp;Priority越低，该任务优先级越高。即这三种任务同时请求资源时，资源优先分配给Failed Map，其次是Reduce，最后才是Map。
 3. 源码分析：
 ## 解决办法
 少部分map由于reduce占用过多资源，无法执行，Container中kill相关reduce，腾出资源让map继续执行。这里有个疑问，从源码和配置文件中，如果map出现资源不足的情况，reduce应该会立即释放资源，但为何map等待时间这么久？从log可以看到，container申请资源时间相当长，考虑到使用的是FairScheduler对于此问题，比较好的方案就是尽量错
