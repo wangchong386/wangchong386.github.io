@@ -27,9 +27,9 @@ image:
 ## Direct Approach VS Receiver-based Approach
 经过上面对两种数据接收方案的介绍，我们发现， Receiver-based Approach 存在各种内存折腾，对应的Direct Approach (No Receivers)则显得比较纯粹简单些，这也给其带来了较多的优势，主要有如下几点：
 
-* 1. 因为按需拉数据，所以不存在缓冲区，就不用担心缓冲区把内存撑爆了。这个在Receiver-based Approach 就比较麻烦，你需要通过spark.streaming.blockInterval等参数来调整。
+1. 因为按需拉数据，所以不存在缓冲区，就不用担心缓冲区把内存撑爆了。这个在Receiver-based Approach 就比较麻烦，你需要通过spark.streaming.blockInterval等参数来调整。
 数据默认就被分布到了多个Executor上。Receiver-based Approach 你需要做特定的处理，才能让 Receiver分不到多个Executor上。
-* 2.Receiver-based Approach 的方式，一旦你的Batch Processing 被delay了，或者被delay了很多个batch,那估计你的Spark Streaming程序离奔溃也就不远了。 Direct Approach (No Receivers) 则完全不会存在类似问题。就算你delay了很多个batch time,你内存中的数据只有这次处理的。
-* 3.Direct Approach (No Receivers) 直接维护了 Kafka offset,可以保证数据只有被执行成功了，才会被记录下来，透过 checkpoint机制。如果采用Receiver-based Approach，消费Kafka和数据处理是被分开的，这样就很不好做容错机制，比如系统当掉了。所以你需要开启WAL,但是开启WAL带来一个问题是，数据量很大，对HDFS是个很大的负担，而且也会对实时程序带来比较大延迟。
+2. Receiver-based Approach 的方式，一旦你的Batch Processing 被delay了，或者被delay了很多个batch,那估计你的Spark Streaming程序离奔溃也就不远了。 Direct Approach (No Receivers) 则完全不会存在类似问题。就算你delay了很多个batch time,你内存中的数据只有这次处理的。
+3. Direct Approach (No Receivers) 直接维护了 Kafka offset,可以保证数据只有被执行成功了，才会被记录下来，透过 checkpoint机制。如果采用Receiver-based Approach，消费Kafka和数据处理是被分开的，这样就很不好做容错机制，比如系统当掉了。所以你需要开启WAL,但是开启WAL带来一个问题是，数据量很大，对HDFS是个很大的负担，而且也会对实时程序带来比较大延迟。
 
 我原先以为Direct Approach 因为只有在计算的时候才拉取数据，可能会比Receiver-based Approach 的方式慢，但是经过我自己的实际测试，总体性能 Direct Approach会更快些，因为Receiver-based Approach可能会有较大的内存隐患，GC也会影响整体处理速度。
