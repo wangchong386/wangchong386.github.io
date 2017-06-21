@@ -28,4 +28,9 @@ permalink: /about/
 #### 亚信联创科技有限公司（2013年6月至2015年9月）
 
 
-## IT技能
+## 职业技能
+    (1) 熟悉shell，python等脚本语言
+    (2) 熟悉 spark内存分布式计算(Spark core,Spark sql,Spark streaming等组件)，Flume日志获取，Kafka消息中间件
+    (3) 理解hadoop分布式文件系统，对hadoop的设计思想有深入的了解，掌握hadoop集群的搭建以及各组件的维护升级，精读过hadoop的核心源码
+    (4) 设计hive数据仓库，数据仓库的主题分析
+    (5) 熟悉oracle,mysql,postgresql等主流数据库
