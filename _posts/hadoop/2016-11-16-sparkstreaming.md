@@ -4,7 +4,7 @@ title:  "sparkstreaming与kafka集成分析"
 categories: hadoop
 toc: true
 image:
-    teaser: /teaser/sparkstreaming.png
+    teaser: /teaser/spark.png
 ---
 
 > 这篇内容主要介绍Spark Streaming 数据接收流程模块中与Kafka集成相关的功能。
