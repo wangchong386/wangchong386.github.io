@@ -14,6 +14,9 @@ image:
 
 ### 前言
 &emsp;&emsp;
+## 先看下流式计算和离线计算的结构图：
+![架构图](/images/hadoop/flume/flume1.png)
+
 {% highlight bash %}
 {% raw %}
 # memory channel called ch1 on web1
