@@ -34,14 +34,14 @@ web1.sources.tail1.interceptors.ts.type = timestamp
 
 # Define an Avro sink main
 web1.sinks.avro_main.type = avro
-web1.sinks.avro_main.hostname = 172.21.150.50
+web1.sinks.avro_main.hostname = host1
 web1.sinks.avro_main.port = 41413
 web1.sinks.avro_main.channel= ch1
 web1.sinks.avro_main.batchsize =5000
 
 # Define an Avro sink backup
 web1.sinks.avro_backup.type = avro
-web1.sinks.avro_backup.hostname = 172.21.150.50
+web1.sinks.avro_backup.hostname = host2
 web1.sinks.avro_backup.port = 41413
 web1.sinks.avro_backup.channel = ch1
 web1.sinks.avro_backup.batchsize = 5000
