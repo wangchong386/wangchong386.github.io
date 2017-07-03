@@ -57,5 +57,4 @@ permalink: /about/
     (5) 熟悉oracle,mysql,postgresql等主流数据库
     (6) 熟悉使用Smartbi、BO、Saiku报表工具,及集成到项目
     (7) 熟练使用Git,svn等版本工具进行合作开发
-    (8) 熟悉linux以及基础搭建
-    (9) 熟悉kettle等ETL工具
+    (8) 熟悉oozie,kettle等ETL调度依赖工具
