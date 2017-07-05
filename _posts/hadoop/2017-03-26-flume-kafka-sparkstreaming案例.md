@@ -18,6 +18,9 @@ image:
 先看下流式计算和离线计算的结构图：
 ![架构图](/images/hadoop/flume/flume1.png)
 
+* 采集端
+/usr/lib/flume/conf/web1.properties
+
 {% highlight bash %}
 {% raw %}
 # memory channel called ch1 on web1
@@ -71,6 +74,115 @@ web1.channels = ch1
 web1.sources = tail1
 web1.sinkgroups = app2_group
 web1.sinks = avro_main avro_backup
+                                   
+{% endraw %}
+{% endhighlight %}
+
+* 收集端
+/usr/lib/flume/conf/collector.properties
+{% highlight bash %}
+{% raw %}
+#channel -> hdfs
+collector1.channels.ch1.type=memory
+collector1.channels.ch1.capacity=1000000000
+collector1.channels.ch1.transactionCapacity=10000
+
+#channel -> kafka
+collector1.channels.ch2.type=memory
+collector1.channels.ch2.capacity=1000000000
+collector1.channels.ch2.transactionCapacity=10000
+
+#avro source
+collector1.sources.avro-source1.type=avro
+collector1.sources.avro-source1.channels = ch1 ch2
+collector1.sources.avro-source1.port = 41413
+collector1.sources.avro-source1.bind = 0.0.0.0
+collector1.sources.avro-source1.threads=10
+collector1.sources.avro-source1.interceptors=i2
+collector1.sources.avro-source1.interceptors.i2.type = dhevent_cvt
+collector1.sources.avro-source1.selector.type = replicating
+
+# Define an hdfs sink
+collector1.sinks.hdfs.channel=ch1
+collector1.sinks.hdfs.type= hdfs
+collector1.sinks.hdfs.hdfs.path=hdfs://nameservice1/data/dhevent/%{SITE}/%Y/%m/%d/%H/%{EVENT}
+collector1.sinks.hdfs.batchsize=10000
+collector1.sinks.hdfs.runner.type=polling
+collector1.sinks.hdfs.runner.polling.interval=1
+collector1.sinks.hdfs.hdfs.rollInterval = 420
+collector1.sinks.hdfs.hdfs.filePrefix = FlumeData_lg0T0
+collector1.sinks.hdfs.hdfs.rollSize=0
+collector1.sinks.hdfs.hdfs.rollCount=500000
+collector1.sinks.hdfs.hdfs.round =true
+collector1.sinks.hdfs.hdfs.roundUnit = hour
+collector1.sinks.hdfs.hdfs.codeC = snappy
+collector1.sinks.hdfs.hdfs.fileType =  CompressedStream
+collector1.sinks.hdfs.hdfs.append.support=true
+collector1.sinks.hdfs.hdfs.txnEventMax=10000
+collector1.sinks.hdfs.hdfs.callTimeout=50000
+collector1.sinks.hdfs.hdfs.idleTimeout = 600
+
+# Define an hdfs sink2
+collector1.sinks.hdfs2.channel=ch1
+collector1.sinks.hdfs2.type= hdfs
+collector1.sinks.hdfs2.hdfs.path=hdfs://nameservice1/data/dhevent/%{SITE}/%Y/%m/%d/%H/%{EVENT}
+collector1.sinks.hdfs2.batchsize=10000
+collector1.sinks.hdfs2.runner.type=polling
+collector1.sinks.hdfs2.runner.polling.interval=1
+collector1.sinks.hdfs2.hdfs.rollInterval = 420
+collector1.sinks.hdfs2.hdfs.filePrefix = FlumeData_lg0T0
+collector1.sinks.hdfs2.hdfs.rollSize=0
+collector1.sinks.hdfs2.hdfs.rollCount=500000
+collector1.sinks.hdfs2.hdfs.round =true
+collector1.sinks.hdfs2.hdfs.roundUnit = hour
+collector1.sinks.hdfs2.hdfs.codeC = snappy
+collector1.sinks.hdfs2.hdfs.fileType =  CompressedStream
+collector1.sinks.hdfs2.hdfs.append.support=true
+collector1.sinks.hdfs2.hdfs.txnEventMax=10000
+collector1.sinks.hdfs2.hdfs.callTimeout=50000
+collector1.sinks.hdfs2.hdfs.idleTimeout = 600
+
+# Define an hdfs sink3
+collector1.sinks.hdfs3.channel=ch1
+collector1.sinks.hdfs3.type= hdfs
+collector1.sinks.hdfs3.hdfs.path=hdfs://nameservice1/data/dhevent/%{SITE}/%Y/%m/%d/%H/%{EVENT}
+collector1.sinks.hdfs3.batchsize=10000
+collector1.sinks.hdfs3.runner.type=polling
+collector1.sinks.hdfs3.runner.polling.interval=1
+collector1.sinks.hdfs3.hdfs.rollInterval = 420
+collector1.sinks.hdfs3.hdfs.filePrefix = FlumeData_lg0T0
+collector1.sinks.hdfs3.hdfs.rollSize=0
+collector1.sinks.hdfs3.hdfs.rollCount=500000
+collector1.sinks.hdfs3.hdfs.round =true
+collector1.sinks.hdfs3.hdfs.roundUnit = hour
+collector1.sinks.hdfs3.hdfs.codeC = snappy
+collector1.sinks.hdfs3.hdfs.fileType =  CompressedStream
+collector1.sinks.hdfs3.hdfs.append.support=true
+collector1.sinks.hdfs3.hdfs.txnEventMax=10000
+collector1.sinks.hdfs3.hdfs.callTimeout=50000
+collector1.sinks.hdfs3.hdfs.idleTimeout = 600
+
+# Define an kafka sink
+collector1.sinks.kafkasink1.channel = ch2
+collector1.sinks.kafkasink1.type = org.apache.flume.sink.kafka.KafkaSink
+collector1.sinks.kafkasink1.kafka.bootstrap.servers = kafka1:9092,kafka2:9092
+#collector1.sinks.kafkasink1.kafka.topic = flume
+collector1.sinks.kafkasink1.kafka.flumeBatchSize = 1000
+collector1.sinks.kafkasink1.kafka.producer.batch.size = 1000
+collector1.sinks.kafkasink1.requiredAcks = 1
+collector1.sinks.kafkasink1.kafka.producer.acks=1
+collector1.sinks.kafkasink1.kafka.producer.retries=5
+collector1.sinks.kafkasink1.kafka.producer.linger.ms=1
+collector1.sinks.kafkasink1.useFlumeEventFormat = true
+collector1.sinks.kafkasink1.key.serializer=org.apache.kafka.common.serialization.StringSerializer
+collector1.sinks.kafkasink1.value.serializer=org.apache.kafka.common.serialization.StringSerializer
+
+# Finally, now that we've defined all of our components, tell
+# collector1 which ones we want to activate.
+collector1.channels = ch1 ch2
+collector1.sources = avro-source1
+collector1.sinks = hdfs hdfs2 hdfs3 kafkasink1
+
                                    
 {% endraw %}
 {% endhighlight %}
