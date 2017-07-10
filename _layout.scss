@@ -60,12 +60,12 @@
 				@include transition(width 0.3s);
 			}
 			&:before {
-				width: 100%;
+				width: 40%;
 				background: transparent;
 			}
 			&:after {
 				width: 0;
-				background: $black;
+				background: $yellow;
 			}
 			&:active:after,
 			&:hover:after {
