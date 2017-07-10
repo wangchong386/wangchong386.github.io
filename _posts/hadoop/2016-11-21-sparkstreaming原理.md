@@ -1,6 +1,6 @@
 ---
 layout: article
-title:  "sparkstreaming与kafka集成分析"
+title:  "Spark Streaming整体架构以及原理"
 categories: hadoop
 toc: true
 image:
