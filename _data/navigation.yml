@@ -1,0 +1,20 @@
+# Site navigation links
+
+- title: Home
+  url: /
+  excerpt: 
+  image: 
+
+- title: DW
+  url: /DW/
+  
+- title: hadoop
+  url: /hadoop/
+  
+- title: Linux
+  url: /linux/
+
+
+- title: About Me
+  url: /about/
+
