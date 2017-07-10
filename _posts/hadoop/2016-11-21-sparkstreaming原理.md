@@ -47,9 +47,19 @@ MQTT |spark-streaming-mqtt_2.10
 {% raw %}
 import org.apache.spark.*;
 import org.apache.spark.streaming.api.java.*;
-
+/*
+ *第1步：创建spark的配置对象SparkConf，设置spark程序运行的配置信息
+*/
 SparkConf conf = new SparkConf().setAppName(appName).setMaster(master);
+//appName 表示你的应用程序显示在集群UI上的名字， master 是一个Spark、Mesos、YARN集群URL 或者一个特殊字符串“local[*]”，它表示程序用本地模式运行。
 JavaStreamingContext ssc = new JavaStreamingContext(conf, new Duration(1000));
+//批时间片需要根据你的程序的潜在需求以及集群的可用资源来设置
 
+
+//JavaStreamingContext也可以从一个已经存在的JavaSparkContext来进行创建
+import org.apache.spark.streaming.api.java.*;
+
+JavaSparkContext sc = ...   //existing JavaSparkContext
+JavaStreamingContext ssc = new JavaStreamingContext(sc, Durations.seconds(1));
 {% endraw %}
 {% endhighlight %}
