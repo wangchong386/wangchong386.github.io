@@ -1,7 +1,6 @@
 # Site wide configuration
 
-title: "Personal Blog"
-description: "每天学一点"
+
 locale:
 url:
 
