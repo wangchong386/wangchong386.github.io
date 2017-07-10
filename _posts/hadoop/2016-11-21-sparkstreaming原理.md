@@ -12,6 +12,7 @@ image:
 ## 架构介绍
 > sparkstreaming是核心Spark API的扩展，可以实现实时数据流的可扩展，高吞吐，容错的流处理。数据源可以从Flume、kafka、kinesis 以及TCP sockets来获取。并且可以使用map,reduce,joinhe windows等高级功能开进行处理。最后处理好的数据可以存储到文件系统，数据库以及实时仪表盘上展现
 * Spark Streaming接收实时输入数据流并将数据分成批，然后由Spark引擎进行处理，以批量生成最终的结果流。
+
 ![](/images/hadoop/sparkstreaming/sparkstreaming1.png)
 
 * Spark Streaming 的编程抽象是离散化流，也就是DStream,它是一个RDD 序列，每个RDD 代表数据流中一个时间片内的数据。
@@ -65,14 +66,23 @@ JavaStreamingContext ssc = new JavaStreamingContext(sc, Durations.seconds(1));
 {% endhighlight %}
 
 * 当一个上下文（context）定义之后，你必须按照以下几步进行操作：
+
 (1) 定义输入源；
+
 (2) 准备好流计算指令；
+
 (3) 利用 JavaStreamingContext.start() 方法接收和处理数据；
+
 (4) 处理过程将一直持续，直到 JavaStreamingContext.stop() 方法被调用。
 
 * 几点需要注意的地方：
+
 (1) 一旦一个context已经启动，就不能有新的流算子建立或者是添加到context中。
+
 (2) 一旦一个context已经停止，它就不能再重新启动
+
 (3) 在JVM中，同一时间只能有一个JavaStreamingContext处于活跃状态
+
 (4) 在JavaStreamingContext上调用 stop() 方法，也会关闭JavaSparkContext对象。如果只想仅关闭JavaStreamingContext对象，设置 stop() 的可选参数为false
+
 (5) 一个JavaSparkContext对象可以重复利用去创建多个JavaStreamingContext对象，前提条件是前面的JavaStreamingContext在后面JavaStreamingContext创建之前关闭（不关闭JavaSparkContext）。
