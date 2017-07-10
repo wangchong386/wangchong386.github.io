@@ -9,6 +9,7 @@ image:
 
 > 这篇内容主要介绍Spark Streaming整体架构以及原理
 
+## 架构介绍
 > sparkstreaming是核心Spark API的扩展，可以实现实时数据流的可扩展，高吞吐，容错的流处理。数据源可以从Flume、kafka、kinesis 以及TCP sockets来获取。并且可以使用map,reduce,joinhe windows等高级功能开进行处理。最后处理好的数据可以存储到文件系统，数据库以及实时仪表盘上展现
 
 ![](/images/hadoop/sparkstreaming/sparkstreaming1.png)
@@ -31,10 +32,24 @@ image:
 
 为了从Kafka, Flume和Kinesis这些不在Spark核心API中提供的源获取数据，我们需要添加相关的模块 spark-streamingxyz_2.10 到依赖中。例如，一些通用的组件如下表所示：
 
-|Source ||Artifact|
+|Source |Artifact|
 Kafka |spark-streaming-kafka_2.10
 Flume |spark-streaming-flume_2.10
 Kinesis |spark-streaming-kinesis-asl_2.10
 Twitter |spark-streaming-twitter_2.10
 ZeroMQ |spark-streaming-zeromq_2.10
 MQTT |spark-streaming-mqtt_2.10
+
+## 各部分功能介绍
+* 初始化StreamingContext(Java版本)
+&emsp;&emsp;为了初始化Spark Streaming程序，一个StreamingContext对象必需被创建，它是Spark Streaming所有流操作的主要入口。一个StreamingContext 对象可以用SparkConf对象创建。
+{% highlight bash %}
+{% raw %}
+import org.apache.spark.*;
+import org.apache.spark.streaming.api.java.*;
+
+SparkConf conf = new SparkConf().setAppName(appName).setMaster(master);
+JavaStreamingContext ssc = new JavaStreamingContext(conf, new Duration(1000));
+
+{% endraw %}
+{% endhighlight %}
