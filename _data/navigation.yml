@@ -11,6 +11,12 @@
 - title: hadoop
   url: /hadoop/
   
+- title: flume
+  url: /flume/
+  
+- title: spark
+  url: /spark/
+  
 - title: Linux
   url: /linux/
 
