@@ -1,7 +1,7 @@
 ---
 layout: article
 title:  "Spark Streaming整体架构以及原理"
-categories: hadoop
+categories: spark
 toc: true
 image:
     teaser: /teaser/spark.png

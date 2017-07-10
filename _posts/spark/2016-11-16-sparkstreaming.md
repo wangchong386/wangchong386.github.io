@@ -1,7 +1,7 @@
 ---
 layout: article
 title:  "sparkstreaming与kafka集成分析"
-categories: hadoop
+categories: spark
 toc: true
 image:
     teaser: /teaser/spark.png
