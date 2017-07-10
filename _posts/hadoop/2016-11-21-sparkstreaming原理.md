@@ -30,10 +30,11 @@ image:
 {% endhighlight %}
 
 为了从Kafka, Flume和Kinesis这些不在Spark核心API中提供的源获取数据，我们需要添加相关的模块 spark-streamingxyz_2.10 到依赖中。例如，一些通用的组件如下表所示：
-||Source ||Artifact||
-|Kafka |spark-streaming-kafka_2.10|
-|Flume |spark-streaming-flume_2.10|
-|Kinesis |spark-streaming-kinesis-asl_2.10|
-|Twitter |spark-streaming-twitter_2.10|
-|ZeroMQ |spark-streaming-zeromq_2.10|
-|MQTT |spark-streaming-mqtt_2.10|
+
+|Source ||Artifact|
+Kafka |spark-streaming-kafka_2.10
+Flume |spark-streaming-flume_2.10
+Kinesis |spark-streaming-kinesis-asl_2.10
+Twitter |spark-streaming-twitter_2.10
+ZeroMQ |spark-streaming-zeromq_2.10
+MQTT |spark-streaming-mqtt_2.10
