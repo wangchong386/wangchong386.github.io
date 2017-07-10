@@ -1,7 +1,7 @@
 ---
 layout: article
-title: About
-permalink: /about/
+title: Resume
+permalink: /resume/
 ---
 
 > Knowing WHAT is not enough, I need to know WHY.
@@ -13,9 +13,9 @@ permalink: /about/
 * 工作年限：3年
 * 技术博客: http://www.chongblog.xyz
 * Github:  https://github.com/wangchong386
-* 期望职位：数据仓库工程师，大数据基础架构师
+* 期望职位：数据仓库工程师
 * 期望薪资：面议
-* 期望城市：北京，杭州，深圳
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## 自我评价
