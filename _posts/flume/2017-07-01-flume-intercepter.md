@@ -9,3 +9,27 @@ image:
 
 > 这篇主要介绍Flume Interceptor 拦截器
 
+## 拦截器
+> 拦截器是一段代码，可以基于某些标准或者自定义的规则对需要的事件进行读取，修改或者删除。每个source可以配置使用多个拦截器，按照配置中定义的顺序被调用，将拦截器的结果传递给下一个单元。这就是所谓的责任链(chain-of-responsibility)的设计模式，一旦拦截器处理完事件。拦截器链返回的的事件列表传递到channel列表中，既通过channel选择器为每个事件进行，一般拦截器与channel选择器共同使用效果比较好。将事件传到多个channel.
+
+![](/images/hadoop/flume/flume-intercepter1.png)
+
+* (4) 将每个事件传递给Channel选择器
+* (5) 返回写入事件的Channel列表
+* (6) 将多有事件写入每个必需的channel
+* (7) 利用可选channel重复相同的操作
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+* Source读取events发送到Sink的时候，在events header中加入一些有用的信息，或者对events的内容进行过滤，完成初步的数据清洗。这在实际业务场景中非常有用
