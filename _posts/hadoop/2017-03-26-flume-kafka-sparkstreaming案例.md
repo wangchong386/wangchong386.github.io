@@ -95,12 +95,17 @@ collector1.channels.ch2.transactionCapacity=10000
 #avro source
 collector1.sources.avro-source1.type=avro
 collector1.sources.avro-source1.channels = ch1 ch2
-collector1.sources.avro-source1.port = 41413
+collector1.sources.avro-source1.port = 41414
 collector1.sources.avro-source1.bind = 0.0.0.0
-collector1.sources.avro-source1.threads=10
-collector1.sources.avro-source1.interceptors=i2
+collector1.sources.avro-source1.threads=16
+collector1.sources.avro-source1.interceptors = i1 i2
+collector1.sources.avro-source1.interceptors.i1.type=org.apache.flume.sink.solr.morphline.UUIDInterceptor$Builder
+collector1.sources.avro-source1.interceptors.i1.headerName=key
+collector1.sources.avro-source1.interceptors.i1.preserveExisting=false
+#collector1.sources.avro-source1.interceptors=i2
 collector1.sources.avro-source1.interceptors.i2.type = dhevent_cvt
 collector1.sources.avro-source1.selector.type = replicating
+
 
 # Define an hdfs sink
 collector1.sinks.hdfs.channel=ch1
@@ -165,7 +170,8 @@ collector1.sinks.hdfs3.hdfs.idleTimeout = 600
 # Define an kafka sink
 collector1.sinks.kafkasink1.channel = ch2
 collector1.sinks.kafkasink1.type = org.apache.flume.sink.kafka.KafkaSink
-collector1.sinks.kafkasink1.kafka.bootstrap.servers = kafka1:9092,kafka2:9092
+collector1.sinks.kafkasink1.kafka.bootstrap.servers = 172.21.150.43:9092,172.21.150.44:9092
+collector1.sinks.kafkasink1.brokerList=172.21.150.43:9092,172.21.150.44:9092
 #collector1.sinks.kafkasink1.kafka.topic = flume
 collector1.sinks.kafkasink1.kafka.flumeBatchSize = 1000
 collector1.sinks.kafkasink1.kafka.producer.batch.size = 1000
