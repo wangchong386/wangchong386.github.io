@@ -26,13 +26,36 @@ image:
 * Timestamp Interceptor
 这是Flume最常用的一个拦截器：时间戳拦截器，该拦截器将时间戳插入到Flume的事件报头中，
 ![](/images/hadoop/flume/flume-intercepter2.png)
+例如：
+{% highlight bash %}
+{% raw %}
+agent.sources.avro.interceptors = timestampInterceptor
+agent.sources.avro.interceptors.timestampInterceptor.type = timestamp
+agent.sources.avro.interceptors.preserveExisting = false
 
+{% endraw %}
+{% endhighlight %}
 
+* Host Interceptor
+顾名思义就是将ip地址或者主机名插入到Flume事件的报头中，
+![](/images/hadoop/flume/flume-intercepter3.png)
+样例：配置主机拦截器将主机名写入到事件报头中，如果事件报头已经存在，则不会替换
+{% highlight bash %}
+{% raw %}
+agent.sources.avro.interceptors=hostinterceptor
+agent.sources.avro.interceptors.hostinterceptor.type=host
+agent.sources.avro.interceptors.hostinterceptor.useIp = false
+agent.sources.avro.interceptors.hostinterceptor.preserveExisting = true
+{% endraw %}
+{% endhighlight %}
 
-
-
-
-
+* 其他的还有：
+Static Interceptor；
+UUID Interceptor；
+Morphline Interceptor；
+Search and Replace Interceptor；
+Regex Filtering Interceptor；
+Regex Extractor Interceptor；
 
 
 
