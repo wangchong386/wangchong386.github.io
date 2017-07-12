@@ -19,9 +19,13 @@ image:
 * (6) 将多有事件写入每个必需的channel
 * (7) 利用可选channel重复相同的操作
 
+所有拦截器通用的唯一参数是type参数，该参数必需是拦截器的别名或者Builder类的完全限定名(DQCN)，该Builder类用于创建拦截器
 
- 
+## 介绍几个常见的拦截器
 
+* Timestamp Interceptor
+这是Flume最常用的一个拦截器：时间戳拦截器，该拦截器将时间戳插入到Flume的事件报头中，
+![](/images/hadoop/flume/flume-intercepter2.png)
 
 
 
