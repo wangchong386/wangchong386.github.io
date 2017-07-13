@@ -1,6 +1,6 @@
 ---
 layout: article
-title:  "聊Flume 拦截器（一）"
+title:  "聊Flume 拦截器interceptor（一）"
 categories: flume
 toc: true
 image:
