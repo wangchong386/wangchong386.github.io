@@ -4,7 +4,7 @@ title:  "Flume 拦截器interceptor（一）"
 categories: flume
 toc: true
 image:
-    teaser: /teaser/Apache-Flume.png
+    teaser: /teaser/flume-intercepter1.png
 ---
 
 > 这篇主要介绍Flume Interceptor 拦截器
