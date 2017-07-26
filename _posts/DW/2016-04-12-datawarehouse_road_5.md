@@ -4,7 +4,7 @@ title:  "数据仓库之路(五)"
 categories: DW
 toc: true
 image:
-    teaser: /teaser/hive_sql1.png
+    teaser: /teaser/数据监听18511387.jpg
 ---
 
 > 本文主要介绍在w公司的数据仓库之数据监控
