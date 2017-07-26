@@ -1,13 +1,13 @@
 ---
 layout: article
-title:  "数据仓库之路一"
+title:  "数据仓库之路(一)"
 categories: DW
 toc: true
 image:
     teaser: /teaser/hive_sql1.png
 ---
 
-> 本文主要介绍在w公司的数据仓库之路.(虽然有很多关于自己的废话，但是还是有很多干货的)
+> 本文主要介绍在w公司的数据仓库之总体架构.(虽然有很多关于自己的废话，但是还是有很多干货的)
 
 
 ### 前言
