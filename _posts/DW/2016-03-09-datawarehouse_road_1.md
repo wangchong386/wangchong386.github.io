@@ -4,7 +4,7 @@ title:  "数据仓库之路(一)"
 categories: DW
 toc: true
 image:
-    teaser: /teaser/hive_sql1.png
+    teaser: /teaser/大数据-58066959.jpg
 ---
 
 > 本文主要介绍在w公司的数据仓库之总体架构.(虽然有很多关于自己的废话，但是还是有很多干货的)
