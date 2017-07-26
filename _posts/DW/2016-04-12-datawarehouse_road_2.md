@@ -4,7 +4,7 @@ title:  "数据仓库之路(二)"
 categories: DW
 toc: true
 image:
-    teaser: /teaser/hive_sql1.png
+    teaser: /teaser/计算机数据中心-35374082.jpg
 ---
 
 > 本文主要介绍在w公司的数据仓库之数据采集
