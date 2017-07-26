@@ -16,7 +16,7 @@ image:
 首先介绍下w公司大数据平台规模，由于w公司是B2B模式的互联网电商平台，跟很多大的公司不管是集群规模或者数据量都没办法相提并论。但是还是想说说：
 |名称  |规模 |
  集群管理系统|CDH5.9.0
- 已使用的组件|HDFS、YARN、Flume、Spark on Yarn、Oozie、Sqoop
+ 已使用的组件|HDFS、YARN、Flume、Spark on Yarn、Oozie、Sqoop、Kafka、Hive、Hue、Zookeeper、Impala
  hadoop机器数|45个
  总数据量|420TB
  数据日增量|2T
