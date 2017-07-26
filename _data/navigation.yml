@@ -13,6 +13,9 @@
   
 - title: flume
   url: /flume/
+
+- title: kafka
+  url: /kafka/
   
 - title: spark
   url: /spark/
