@@ -330,85 +330,96 @@ ck_send_alert()
 
 ## 功能设计
 * HDFS文件的监控
-
+{% highlight bash %}
+{% raw %}
 在仓库的每个Shell脚本最后，调用【文件及目录存在性检查】函数，用于检查Shell处理的HDFS目录存在，日志ID ck_hdfs_file_exist
-           方法名：ck_hdfs_file_exist_single
-           输入参数1:  HDFS文件目录完整路径(以 \ 结尾)
-           输入参数2:  表名(小写)
-           输入参数3:  数据日期(YYYY-MM-DD)
+  方法名：ck_hdfs_file_exist_single
+  输入参数1:  HDFS文件目录完整路径(以 \ 结尾)
+  输入参数2:  表名(小写)
+  输入参数3:  数据日期(YYYY-MM-DD)
 中间过程：
   a) 判定目录文件hadoop fs -ls是否存在，记录日志到目录
   
   b) 如不存在，则调用告警接口
-
-           输出参数: 1不存在 0存在
-            
-           输出日志:
-             日志文件 /log/audit/audit_YYYY-MM-DD.log
-             日志格式 系统时间#ck_hdfs_file_exist#ETL日期#表名#完整目录#检查结果
-
-
-           方法名：ck_hdfs_file_exist
-           输入参数1:  批处理时的配置文件
-                        ./config/ods_ck_hdfs_file_exist.ini
-             输出参数:   数据执行标志，为0是代表全部成功，大于0代表有错误发生
-             中间过程：a) 循环读取配置文件中的参数，调用ck_hdfs_file_exist_single
-                       b) 将每次循环执行的返回值累加，最后返回累计的结果值
-
+  输出参数: 1不存在 0存在
+  输出日志:
+   日志文件 /log/audit/audit_YYYY-MM-DD.log
+   日志格式 系统时间#ck_hdfs_file_exist#ETL日期#表名#完整目录#检查结果
+  方法名：ck_hdfs_file_exist
+  输入参数1:  批处理时的配置文件
+   ./config/ods_ck_hdfs_file_exist.ini
+输出参数:   数据执行标志，为0是代表全部成功，大于0代表有错误发生
+中间过程：a) 循环读取配置文件中的参数，调用ck_hdfs_file_exist_single
+   b) 将每次循环执行的返回值累加，最后返回累计的结果值
+{% endraw %}
+{% endhighlight %}
 * 文件及目录大小检查
-    在仓库的每个Shell脚本最后，调用【文件及目录大小检查】函数，用于检查Shell处理的HDFS目录大小，
-           方法名：ck_hdfs_file_size_single()
-           输入参数1:  文件目录完整路径
-           输入参数2:  表名(小写)
-           输入参数3:  数据日期(YYYY-MM-DD)
-           输出参数 :  1效验不通过 0效验通过
-           中间过程：  调用hadoop fs –du，根据传入的参数统计目录大小(以KB为单位)，同时计算前一天的目录大小，如果当天的文件目录大小值小于前一天的20%，则认为检查不通过同时触发报警，记录日志。
+{% highlight bash %}
+{% raw %}
+   在仓库的每个Shell脚本最后，调用【文件及目录大小检查】函数，用于检查Shell处理的HDFS目录大小，
+   方法名：ck_hdfs_file_size_single()
+   输入参数1:  文件目录完整路径
+   输入参数2:  表名(小写)
+   输入参数3:  数据日期(YYYY-MM-DD)
+   输出参数 :  1效验不通过 0效验通过
+   中间过程：  调用hadoop fs –du，根据传入的参数统计目录大小(以KB为单位)，同时计算前一天的目录大小，如果当天的文件目录大小值小于前一天的20%，则认为检查不通过同时触发报警，记录日志。
 
-           输出日志:
-             日志文件 /dw/log/audit/audit_YYYY-MM-DD.log
-             日志格式 系统时间#ck_hdfs_file_size#ETL日期#表名#完整目录#目录大小
+   输出日志:
+   日志文件 /dw/log/audit/audit_YYYY-MM-DD.log
+   日志格式 系统时间#ck_hdfs_file_size#ETL日期#表名#完整目录#目录大小
 
-         
+   
 
-           方法名：ck_hdfs_file_size()
-           输入参数1:  批处理时的配置文件
-                         ./config/ods_ck_hdfs_file_size.ini
-             输出参数:   数据执行标志，为0是全部效验通过，大于0代表没效验通过
-             中间过程：a) 循环读取配置文件中的参数，调用ck_hdfs_file_size_single
-                      b) 将每次循环执行的返回值累加，最后返回累计的结果值
+   方法名：ck_hdfs_file_size()
+   输入参数1:  批处理时的配置文件
+   ./config/ods_ck_hdfs_file_size.ini
+   输出参数:   数据执行标志，为0是全部效验通过，大于0代表没效验通过
+   中间过程：a) 循环读取配置文件中的参数，调用ck_hdfs_file_size_single
+            b) 将每次循环执行的返回值累加，最后返回累计的结果值
+
+{% endraw %}
+{% endhighlight %}
 
 * 数据质量监控
   用于检查数据整体质量情况
-           方法名：ck_data_dq_single()
-           输入参数1: 质量检查ID (具体每个检查点的编码，不能为空) 
-           输入参数2: 日期
-           输入参数3: 
-           输出参数: 1执行成功 0执行失败
-           中间过程: a) 根据检查id调用hsql文件夹下同名的检查Hsql，
-                      通过hive -S –e执行将执行结果记录下运行结果。
-                    b) 如有不一致则不通过，调用告警接口
+{% highlight bash %}
+{% raw %}
+  方法名：ck_data_dq_single()
+  输入参数1: 质量检查ID (具体每个检查点的编码，不能为空) 
+  输入参数2: 日期
+  输入参数3: 
+  输出参数: 1执行成功 0执行失败
+  中间过程: a) 根据检查id调用hsql文件夹下同名的检查Hsql，
+     通过hive -S –e执行将执行结果记录下运行结果。
+   b) 如有不一致则不通过，调用告警接口
 
 
-          输出日志:
-             日志文件 /dw/log/audit/audit_YYYY-MM-DD.log
-             日志格式 系统时间#ck_data_dq#ETL日期#质量检查ID#完整目录# 
+  输出日志:
+     日志文件 /dw/log/audit/audit_YYYY-MM-DD.log
+     日志格式 系统时间#ck_data_dq#ETL日期#质量检查ID#完整目录# 
 
 
-    
-            方法名：ck_data_dq ()
-            输入参数1:  批处理时的配置文件
-                        ./config/ods_ck_data_dq.ini
-                        ./config/mds_ck_data_dq.ini
-                        
-             输出参数:   数据执行标志，为0是全部效验通过，大于0代表没效验通过
-             中间过程：a) 循环读取配置文件中的参数，调用ck_data_dq_single
-                      b) 将每次循环执行的返回值累加，最后返回累计的结果值
 
+    方法名：ck_data_dq ()
+    输入参数1:  批处理时的配置文件
+                ./config/ods_ck_data_dq.ini
+                ./config/mds_ck_data_dq.ini
+                
+     输出参数:   数据执行标志，为0是全部效验通过，大于0代表没效验通过
+     中间过程：a) 循环读取配置文件中的参数，调用ck_data_dq_single
+              b) 将每次循环执行的返回值累加，最后返回累计的结果值
+
+{% endraw %}
+{% endhighlight %}
 * 告警
+{% highlight bash %}
+{% raw %}
   用于调用短信或邮件接口
-           方法名：ck_send_alert
-           输入参数1: 告警级别（ERROR，DEBUG，INFO等）
-           输入参数2: 告警(1紧急 2一般 3忽略)
-           输入参数3: 告警信息内容
-           输出参数: 1执行成功 0执行失败
-           中间过程: 调用IT运维短信接口或邮件接口，发送告警。
+          方法名：ck_send_alert
+          输入参数1: 告警级别（ERROR，DEBUG，INFO等）
+          输入参数2: 告警(1紧急 2一般 3忽略)
+          输入参数3: 告警信息内容
+          输出参数: 1执行成功 0执行失败
+          中间过程: 调用IT运维短信接口或邮件接口，发送告警。
+{% endraw %}
+{% endhighlight %}
