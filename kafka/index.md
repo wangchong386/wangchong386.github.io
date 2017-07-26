@@ -1,13 +1,10 @@
 ---
 layout: archive
-permalink: /kafka/
-excerpt: "kafka"
+title: "KAFKA"
 ---
 
 <div class="tiles">
-{% for post in site.posts %}
-	{% if post.categories contains 'kafka' %}
+{% for post in site.categories.kafka %}
 		{% include post-grid.html %}
-	{% endif %}
 {% endfor %}
 </div><!-- /.tiles -->
