@@ -17,7 +17,7 @@ image:
 
 |名称  |规模 |
 集群管理系统|CDH5.9.0
-已使用的组件|HDFS、YARN、Flume、Spark on Yarn、Oozie、Sqoop、Kafka、Hive、Hue、Zookeeper、Impala
+已使用的组件|HDFS、YARN、Flume、Spark、Oozie、Sqoop、Kafka、Hive、Hue、Zookeeper、Impala
 hadoop机器数|45个
 总数据量|420TB
 数据日增量|2T
