@@ -42,3 +42,16 @@ image:
 ## 架构介绍
 * 下图是w公司大数据平台的架构图，主要组件还是基本是相同的。（个人觉得组件只是工具，只有适合自己公司业务的才是最合适的）
 ![](/images/hadoop/dw/dw_data1.png)
+
+## 规模介绍
+&emsp;&emsp;首先介绍下w公司大数据平台规模，由于w公司是B2B模式的互联网电商平台，跟很多大的公司不管是集群规模或者数据量都没办法相提并论。但是还是想说说：
+&emsp;&emsp;目前负责约100台服务器：Dell PowerEdge R730xd。32Core 64G内存，2TB/3TB X 6 300GB X 1
+
+|名称  |规模 |
+集群管理系统|CDH5.9.0
+已使用的组件|HDFS、YARN、Flume、Spark、Oozie、Sqoop、Kafka、Hive、Hue、Zookeeper、Impala
+hadoop机器数|45个
+总数据量|420TB
+数据日增量|2T
+日任务job数|10000个
+核心任务job数|4000个
