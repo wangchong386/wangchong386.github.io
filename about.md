@@ -24,13 +24,12 @@ permalink: /about/
 良好的心理素质，具备良好的编码习惯，能够承受高强度的工作压力,具有良好的团队合作精神。
 ## 工作经历
 #####  敦煌网（2015年9月至今）
-职位：数据开发工程师
-部门：大数据/基础架构
-主要职责：
-
-* 负责公司hadoop集群搭建以及优化。将公司hadoop集群升级2.0，增加spark,sparkstreaming等组件。为流式计算处理提供条件。对Yarn资源管理系统进行调优，
-* 参与数据开发,将Flume采集到kafka的数据进行处理，使用hsql/spark sql + shell 进行批处理开发。使用rundeck进行调度依赖。将计算结果推送到关系数据库。参与流式计算，使用sparkstreaming对接kafka计算卖10min流量情况。
-* 负责ETL流程维护以及优化，支撑BI系统及数据挖掘所需数据需求，负责从数据源到数据集市整条链路的打通及维护工作 
+* 职位：数据开发工程师
+* 部门：大数据/基础架构
+* 主要职责：
+  * 负责公司hadoop集群搭建以及优化。将公司hadoop集群升级2.0，增加spark,sparkstreaming等组件。为流式计算处理提供条件。对Yarn资源管理系统进行调优，
+  * 参与数据开发,将Flume实时采集到kafka的数据进行处理，使用hsql/spark sql + shell 进行批处理开发。使用rundeck进行调度依赖。将计算结果推送到关系数据库。参与流式计算，使用sparkstreaming对接kafka计算卖10min流量情况。
+  * 负责ETL流程维护以及优化，支撑BI系统及数据挖掘所需数据需求，负责从数据源到数据集市整条链路的打通及维护工作 
 
 ##### 亚信联创科技有限公司（2014年6月至2015年9月）
 * 职位：ETL工程师
@@ -42,7 +41,7 @@ permalink: /about/
 * 集群规模： hadoop机器数45个
 * 数据日吞吐量：2TB左右，日任务job数10000个，核心任务job数4000个
 * 责任描述：
-    * 使用Flume采集过来的数据直接落到HDFS，经过ods基础层-->mds中间层-->sds应用层的ETL处理，然后通过sqoop/sqlloader推送到RDBMS关系数据库中。ETL使用的hive sql/Pig计算+shell脚本来实现的。计算近7天，30，自然月的商户流量以及交易情况，并且计算同环比指标。对整个ETL流程优化，保证数据实时准确完成处理。
+    * 使用Flume采集过来的数据直接落到HDFS，经过ods基础层-->mds中间层-->sds应用层的ETL处理，将多维数据分析结果通过sqoop导入到Mysql中进行统一管理，ETL使用的hive sql/Pig计算+shell脚本来实现的。计算近7天，30，自然月的商户流量以及交易情况，并且计算同环比指标。对整个ETL流程优化，保证数据实时准确完成处理。
 
 二. 联通华盛经营分析系统
 * __项目时间__：2014/6 - 2015年4月
@@ -61,7 +60,7 @@ permalink: /about/
 * 熟悉 spark内存分布式计算(Spark core,Spark sql,Spark streaming等组件)
 * 熟悉Flume日志获取，Kafka消息中间件，sqoop数据传输
 * 掌握hadoop集群的搭建以及各组件的维护升级，熟悉Yarn资源管理以及调度配置。
-* 精通spark-sql或hive sql，有较强的开发调优能力
+* 精通spark-sql或hive sql，编写UDF,有较强的开发调优能力
 * 熟悉oracle,mysql,postgresql等主流数据库
 * 熟悉使用Smartbi、BO、Saiku报表工具,及集成到项目
 * 熟练使用Git,svn等版本工具进行合作开发
