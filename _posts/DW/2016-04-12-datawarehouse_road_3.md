@@ -1,6 +1,6 @@
 ---
 layout: article
-title:  "数据仓库之路(二)"
+title:  "数据仓库之路(三)"
 categories: DW
 toc: true
 ---
