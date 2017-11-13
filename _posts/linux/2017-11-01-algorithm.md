@@ -1,7 +1,7 @@
 ---
 layout: article
 title:  "学习算法"
-categories: DW
+categories: linux
 toc: true
 ---
 
