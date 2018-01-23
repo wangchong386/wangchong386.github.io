@@ -1,10 +1,10 @@
 ---
 layout: archive
-title: "KAFKA"
+title: "ML"
 ---
 
 <div class="tiles">
-{% for post in site.categories.kafka %}
+{% for post in site.categories.ML %}
 		{% include post-grid.html %}
 {% endfor %}
 </div><!-- /.tiles -->
