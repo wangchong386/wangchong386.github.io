@@ -51,13 +51,13 @@ permalink: /about/
     * 将Flume实时采集用户行为数据，使用kafka+sparkstreaming实时处理落到HDFS上，经过ods基础层-->mds中间层-->sds应用层的ETL处理，将多维数据分析结果通过sqoop导入到Mysql中进行统一管理，ETL使用的hive sql/Pig计算+shell脚本来实现的。计算近7天，30，自然月的商户流量以及交易情况，并且计算同环比指标。对整个ETL流程优化，保证数据实时准确完成处理。
 
 ## 职业技能
-* 熟练ETL设计与开发，熟悉Oozie,kettle,Rundeck等ETL调度依赖工具
+* 掌握hadoop集群的搭建以及各组件的维护升级，熟悉Yarn资源管理以及调度配置。
 * 了解数据仓库建设基本思路，有数据仓库建设项目经验，熟悉数据仓库的主题分析.构建DMP大数据平台经验
 * 语言：熟悉shell，python。能够快速理解JAVA代码，熟悉IDEA等开发环境
 * 熟悉 spark内存分布式计算(Spark core,Spark sql,Spark streaming等组件)
 * 熟悉Flume日志获取，Kafka消息中间件，sqoop数据传输,Zeppelin交互式分析查询
-* 掌握hadoop集群的搭建以及各组件的维护升级，熟悉Yarn资源管理以及调度配置。
 * 精通spark-sql或hive sql，编写UDF,有较强的开发调优能力
 * 熟悉oracle,mysql,postgresql等主流数据库
+* 熟练ETL设计与开发，熟悉Oozie,kettle,Rundeck等ETL调度依赖工具
 * 熟悉使用Smartbi、BO、Saiku报表工具,及集成到项目
 * 熟练使用Git,svn等版本工具进行合作开发
