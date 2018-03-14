@@ -11,6 +11,11 @@ image:
 
 ## 总有你要的编程书单
 
+### 公开资源网
+```
+http://www.smart090.com/download/?utm_source=qq
+```
+
 <h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><h3 id="ide"><a href="#IDE" class="headerlink" title="IDE"></a>IDE</h3><ul>
 <li><a href="https://github.com/judasn/IntelliJ-IDEA-Tutorial" target="_blank" rel="external">IntelliJ IDEA 简体中文专题教程</a></li>
 </ul>
